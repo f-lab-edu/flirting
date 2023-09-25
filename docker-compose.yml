@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  rds:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: local
+      MYSQL_USER: local
+      MYSQL_PASSWORD: local
+      MYSQL_DATABASE: service
+    ports:
+      - "3306:3306"
