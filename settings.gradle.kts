@@ -1,3 +1,4 @@
 rootProject.name = "flirting"
 
-include(":application:service-api")
+include(":app:app-service-api")
+include(":domain:domain-rds")
