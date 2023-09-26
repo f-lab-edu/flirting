@@ -5,6 +5,27 @@
 ## 모듈 계층 구성
 플러팅 api는 멀티 모듈 프로젝트로 구성되어 있습니다.
 
+```mermaid
+flowchart TB
+    subgraph app
+		app_service_api[app-service-api]
+    end
+    subgraph domain
+		domain_rds[domain-rds]
+    end
+    subgraph core
+
+    end
+		subgraph gateway
+
+    end
+    app --> domain
+    app --> core
+    app --> gateway
+    domain --> core
+    gateway --> core
+```
+
 참고: [멀티모듈 설계 이야기 with Spring, Gradle](https://techblog.woowahan.com/2637/)
 
 ### app
@@ -18,8 +39,8 @@
 > 시스템의 중심 도메인을 다루는 모듈
 - `domain-rds`: 회원 도메인
 
-### infra
-> 플러팅 앱과 무관하게 자체로서 독립적인 역할을 갖는 모듈
+### gateway
+> 클라이언트과 호출하는 부분들에 대한 인터페이스와 행동,행위 등에 해당하는 기능을 작업합니다.
 
 
 ## 시작하기
