@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class HelloService {
-  private final HelloRepository helloRepository;
+    private final HelloRepository helloRepository;
 
-  public String helloWorld() {
-    helloRepository.findAll();
-    return "Hello World!";
-  }
+    public String helloWorld() {
+        helloRepository.findAll();
+        return "Hello, world!";
+    }
 }
