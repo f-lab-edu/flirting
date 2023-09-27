@@ -10,20 +10,12 @@ flowchart TB
     subgraph app
 		app_service_api[app-service-api]
     end
-    subgraph domain
-		domain_rds[domain-rds]
-    end
-    subgraph core
 
-    end
-		subgraph gateway
-
-    end
     app --> domain
-    app --> core
-    app --> gateway
-    domain --> core
-    gateway --> core
+		app --> core
+		app --> gateway
+		domain --> core
+		gateway --> core
 ```
 
 참고: [멀티모듈 설계 이야기 with Spring, Gradle](https://techblog.woowahan.com/2637/)
@@ -37,7 +29,6 @@ flowchart TB
 
 ### domain
 > 시스템의 중심 도메인을 다루는 모듈
-- `domain-rds`: 회원 도메인
 
 ### gateway
 > 클라이언트과 호출하는 부분들에 대한 인터페이스와 행동,행위 등에 해당하는 기능을 작업합니다.

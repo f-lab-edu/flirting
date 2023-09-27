@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":domain:domain-rds"))
+    implementation(project(":domain"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     compileOnly("org.projectlombok:lombok")
