@@ -12,6 +12,8 @@ spring:
         format_sql: true
         use_sql_comments: true
         default_batch_fetch_size: 100
+
   sql:
     init:
-      mode: always
+      mode: never # always 자동 생성
+

@@ -1,5 +1,7 @@
 package site.ymango.config;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -19,6 +21,7 @@ public class ObjectMapperConfiguration {
         .setTimeZone(TimeZone.getTimeZone("Asia/Seoul"))
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .setDefaultSetterInfo(JsonSetter.Value.forValueNulls(Nulls.SKIP))
         .registerModule(new JavaTimeModule());
   }
 

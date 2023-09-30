@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import site.ymango.user.enums.Gender;
-import site.ymango.user.enums.MBTI;
+import site.ymango.user.enums.Mbti;
 import site.ymango.user.enums.UserStatus;
 import site.ymango.user.model.Location;
 import site.ymango.user.model.User;
@@ -33,12 +33,12 @@ class UserServiceTest {
     LocalDate birthdate = LocalDate.now();
     String sido = "서울";
     String sigungu = "강남구";
-    MBTI mbti = MBTI.INFJ;
+    Mbti mbti = Mbti.INFJ;
     String preferMbti = "EOFP";
     Location location = new Location(1.0, 2.0);
 
     UserCompany company = new UserCompany(
-        null, "google", "gmail.com", null, null, null, null
+        null, null, "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
         null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
@@ -47,7 +47,7 @@ class UserServiceTest {
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
     );
 
-    User newUser = userService.signUp(user);
+    User newUser = userService.create(user);
     UserProfile newUserProfile = newUser.userProfile();
 
     assertEquals(email, newUser.email());

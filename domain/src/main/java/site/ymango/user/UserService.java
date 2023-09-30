@@ -18,14 +18,18 @@ public class UserService {
   private final UserCompanyRepository userCompanyRepository;
   private final ObjectMapper objectMapper;
 
+  public User getUser(String email) {
+    return objectMapper.convertValue(userRepository.findByEmail(email)
+        .orElseThrow(() -> new RuntimeException("존재하지 않는 이메일입니다.")), User.class);
+  }
+
   @Transactional
-  public User signUp(User user) {
+  public User create(User user) {
     if (userRepository.existsByEmail(user.email())) {
       throw new RuntimeException("이미 존재하는 이메일입니다.");
     }
 
-    UserCompanyEntity userCompanyEntity = userCompanyRepository.findByNameAndDomain(user.userProfile().userCompany().name(),
-            user.userProfile().userCompany().domain())
+    UserCompanyEntity userCompanyEntity = userCompanyRepository.findByDomain(user.userProfile().userCompany().domain())
         .orElseThrow(() -> new RuntimeException("존재하지 않는 회사입니다."));
 
     UserEntity userEntity = objectMapper.convertValue(user, UserEntity.class);

@@ -23,7 +23,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import site.ymango.user.converter.LocationConverter;
 import site.ymango.user.enums.Gender;
-import site.ymango.user.enums.MBTI;
+import site.ymango.user.enums.Mbti;
 import site.ymango.user.model.Location;
 
 @Getter
@@ -45,7 +45,7 @@ public class UserProfileEntity {
   @Column(name = "gender")
   private Gender gender;
 
-  @Column(name = "birthdate", columnDefinition = "DATE")
+  @Column(name = "birthdate")
   private LocalDate birthdate;
 
   @Column(name = "sido")
@@ -56,7 +56,7 @@ public class UserProfileEntity {
 
   @Column(name = "mbti")
   @Enumerated(EnumType.STRING)
-  private MBTI mbti;
+  private Mbti mbti;
 
   @Column(name = "prefer_mbti")
   private String preferMbti;

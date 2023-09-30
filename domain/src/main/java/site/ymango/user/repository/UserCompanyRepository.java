@@ -7,5 +7,5 @@ import site.ymango.user.entity.UserCompanyEntity;
 
 @Repository
 public interface UserCompanyRepository extends JpaRepository<UserCompanyEntity, Integer> {
-  Optional<UserCompanyEntity> findByNameAndDomain(String name, String domain);
+  Optional<UserCompanyEntity> findByDomain(String domain);
 }

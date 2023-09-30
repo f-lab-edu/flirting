@@ -1,2 +1,10 @@
 server:
   port: 8880
+
+application:
+  security:
+    jwt:
+      secret-key: REZkb1NCMDdxdVY3ZnNMdnVnQ3l2dEdRckpneUhRMDY=
+      expiration: 86400
+      refresh-token:
+        expiration: 2592000
