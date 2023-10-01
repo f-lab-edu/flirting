@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.ymango.exception.ErrorCode;
+import site.ymango.exception.BaseException;
 import site.ymango.user.entity.UserCompanyEntity;
 import site.ymango.user.entity.UserEntity;
 import site.ymango.user.model.User;
@@ -20,17 +22,17 @@ public class UserService {
 
   public User getUser(String email) {
     return objectMapper.convertValue(userRepository.findByEmail(email)
-        .orElseThrow(() -> new RuntimeException("존재하지 않는 이메일입니다.")), User.class);
+        .orElseThrow(() -> new BaseException(ErrorCode.USER_NOT_FOUND)), User.class);
   }
 
   @Transactional
   public User create(User user) {
     if (userRepository.existsByEmail(user.email())) {
-      throw new RuntimeException("이미 존재하는 이메일입니다.");
+      throw new BaseException(ErrorCode.USER_ALREADY_EXISTS, user.email());
     }
 
     UserCompanyEntity userCompanyEntity = userCompanyRepository.findByDomain(user.userProfile().userCompany().domain())
-        .orElseThrow(() -> new RuntimeException("존재하지 않는 회사입니다."));
+        .orElseThrow(() -> new BaseException(ErrorCode.COMPANY_NOT_FOUND));
 
     UserEntity userEntity = objectMapper.convertValue(user, UserEntity.class);
 

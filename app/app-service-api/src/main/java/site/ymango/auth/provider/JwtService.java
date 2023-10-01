@@ -3,7 +3,6 @@ package site.ymango.auth.provider;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;

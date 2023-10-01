@@ -22,7 +22,7 @@ public class WebSecurityConfiguration {
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
       return http.authorizeHttpRequests(authorize -> authorize
-              .requestMatchers( "/v1/auth/**").permitAll()
+              .requestMatchers( "/v1/auth/**", "/hello").permitAll()
               .anyRequest().authenticated()
       )
           .authenticationProvider(authenticationProvider)
@@ -31,7 +31,6 @@ public class WebSecurityConfiguration {
           .httpBasic(AbstractHttpConfigurer::disable)
           .formLogin(AbstractHttpConfigurer::disable)
           .csrf(AbstractHttpConfigurer::disable)
-//          .cors(cors -> cors.)
           .build();
   }
 }

@@ -9,12 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import org.hibernate.annotations.Where;
 
 @Entity
+@Getter
+@Where(clause = "deleted_at IS NULL")
 @JsonIgnoreProperties({"userProfile"})
 @Table(name = "user_company", catalog = "service")
 public class UserCompanyEntity {

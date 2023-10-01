@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -31,6 +32,7 @@ import site.ymango.user.model.Location;
 @Entity
 @JsonIgnoreProperties({"userEntity"})
 @Table(name = "user_profile", catalog = "service")
+@Where(clause = "deleted_at IS NULL")
 @EntityListeners(AuditingEntityListener.class)
 public class UserProfileEntity {
   @Id
