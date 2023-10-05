@@ -24,7 +24,9 @@ repositories {
 dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
+    implementation(project(":domain:domain-rds"))
     implementation(project(":gateway"))
+    implementation(project(":notification"))
 
     // jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")

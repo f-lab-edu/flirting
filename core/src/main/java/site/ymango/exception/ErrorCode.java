@@ -10,6 +10,7 @@ public enum ErrorCode {
   INVALID_TOKEN(HttpStatus.UNAUTHORIZED, 1001, "유효하지 않은 토큰입니다."),
   EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, 1002, "만료된 토큰입니다."),
   ACCESS_DENIED(HttpStatus.FORBIDDEN, 1003, "접근이 거부되었습니다."),
+  VERIFICATION_FAILED(HttpStatus.UNAUTHORIZED, 1004, "인증에 실패했습니다."),
 
 
   // user
@@ -20,6 +21,11 @@ public enum ErrorCode {
   USER_NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, 2004, "사용자 권한이 없습니다."),
   USER_NOT_VERIFIED(HttpStatus.UNAUTHORIZED, 2005, "사용자가 인증되지 않았습니다."),
   COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, 2006, "회사를 찾을 수 없습니다."),
+  EMAIL_VERIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, 2007, "이메일 인증 정보가 유효하지 않습니다."),
+  EMAIL_NOT_VERIFIED(HttpStatus.UNAUTHORIZED, 2008, "이메일이 인증되지 않았습니다."),
+
+  // validation
+  INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, 4000, "입력값이 올바르지 않습니다."),
 
 
   UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR ,9999, "알 수 없는 에러가 발생했습니다.");

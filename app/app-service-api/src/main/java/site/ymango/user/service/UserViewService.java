@@ -2,7 +2,7 @@ package site.ymango.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import site.ymango.auth.provider.JwtService;
+import site.ymango.auth.service.JwtService;
 import site.ymango.user.UserService;
 import site.ymango.user.dto.UserResponse;
 import site.ymango.user.model.User;

@@ -47,7 +47,7 @@ class UserServiceTest {
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
     );
 
-    User newUser = userService.create(user);
+    User newUser = userService.create(user, "deviceId");
     UserProfile newUserProfile = newUser.userProfile();
 
     assertEquals(email, newUser.email());

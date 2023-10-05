@@ -1,0 +1,5 @@
+application:
+  security:
+    jwt:
+      secret-key: REZkb1NCMDdxdVY3ZnNMdnVnQ3l2dEdRckpneUhRMDY=
+      expiration: 2592000

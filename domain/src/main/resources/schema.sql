@@ -59,3 +59,18 @@ create table service.user_company
         unique (name, domain)
 );
 
+create table service.email_verification
+(
+    email_verification_id bigint auto_increment
+        primary key,
+    email                 varchar(255)                         not null,
+    verified              tinyint(1) default 0                 not null,
+    verification_number   char(4)                              not null,
+    device_id             varchar(255)                         not null,
+    created_at            timestamp  default CURRENT_TIMESTAMP not null
+);
+
+create index email_verification_ix_email_created_at
+    on service.email_verification (email asc, created_at desc);
+
+

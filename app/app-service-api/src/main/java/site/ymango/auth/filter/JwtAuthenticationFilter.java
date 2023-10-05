@@ -16,8 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import site.ymango.auth.provider.JwtService;
-import site.ymango.dto.BaseExceptionResponse;
+import site.ymango.auth.service.JwtService;
+import site.ymango.dto.BaseResponse;
 import site.ymango.exception.ErrorCode;
 
 @Component
@@ -69,10 +69,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   }
 
   private void handleException(HttpServletResponse response, ErrorCode se, Exception e) throws IOException {
-    BaseExceptionResponse<Object> exceptionResponse = BaseExceptionResponse.builder()
+    BaseResponse exceptionResponse = BaseResponse.builder()
         .code(se.getCode())
         .message(se.getMessage())
-        .trace(e.getStackTrace())
         .build();
 
     response.setStatus(se.getStatus().value());

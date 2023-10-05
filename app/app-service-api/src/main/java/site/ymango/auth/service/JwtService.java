@@ -1,4 +1,4 @@
-package site.ymango.auth.provider;
+package site.ymango.auth.service;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -18,8 +18,6 @@ public class JwtService {
   private String secretKey;
   @Value("${application.security.jwt.expiration}")
   private long jwtExpiration;
-  @Value("${application.security.jwt.refresh-token.expiration}")
-  private long refreshExpiration;
 
   public String extractEmail(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -39,12 +37,6 @@ public class JwtService {
       User user
   ) {
     return buildToken(extraClaims, user, jwtExpiration);
-  }
-
-  public String generateRefreshToken(
-      User user
-  ) {
-    return buildToken(Map.of(), user, refreshExpiration);
   }
 
   private String buildToken(

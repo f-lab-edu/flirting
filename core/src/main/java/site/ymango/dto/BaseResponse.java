@@ -1,24 +1,34 @@
 package site.ymango.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import org.springframework.validation.FieldError;
 
 @Data
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseResponse<T> {
-  int code;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class BaseResponse {
+  private int code;
 
   @Builder.Default
-  String message = "success";
+  private String message = "success";
 
-  T data;
+  private Object data;
 
-  public static <T> BaseResponse<T> success(T data) {
-    return BaseResponse.<T>builder().data(data).build();
+  private String detail;
+  private List<FieldError> errors;
+
+  public static BaseResponse success(Object data) {
+    return BaseResponse.builder()
+        .code(200)
+        .message("success")
+        .data(data)
+        .build();
   }
 }
