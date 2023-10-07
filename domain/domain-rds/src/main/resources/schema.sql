@@ -72,5 +72,3 @@ create table service.email_verification
 
 create index email_verification_ix_email_created_at
     on service.email_verification (email asc, created_at desc);
-
-
