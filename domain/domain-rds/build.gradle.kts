@@ -3,7 +3,6 @@ plugins {
     java
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
-    id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
 }
 
 group = "site.ymango"
@@ -24,15 +23,19 @@ repositories {
 }
 
 dependencies {
-    implementation("com.querydsl:querydsl-jpa")
-    annotationProcessor("com.querydsl:querydsl-apt")
-
     api("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("com.mysql:mysql-connector-j")
+
+    api ("com.querydsl:querydsl-jpa:5.0.0")
+    implementation ("com.querydsl:querydsl-core:5.0.0")
+    annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+    annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("org.hibernate:hibernate-spatial:6.1.7.Final")
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -43,16 +46,8 @@ tasks.withType<Test> {
 
 val querydslDir = "$buildDir/generated/querydsl"
 
-querydsl {
-    jpa = true
-    library = "com.querydsl:querydsl-apt"
-    querydslSourcesDir = querydslDir
-}
-sourceSets.getByName("main") {
-    java.srcDir(querydslDir)
-}
-configurations {
-    named("querydsl") {
-        extendsFrom(configurations.compileClasspath.get())
+tasks.named("clean") {
+    doLast {
+        file(querydslDir).deleteRecursively()
     }
 }
