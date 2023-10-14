@@ -68,6 +68,7 @@ public class UserProfileEntity {
   private Mbti mbti;
 
   @Column(name = "prefer_mbti")
+  @Enumerated(EnumType.STRING)
   private PerferMbti preferMbti;
 
   @Column(name = "location")

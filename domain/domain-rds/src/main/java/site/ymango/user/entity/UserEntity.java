@@ -1,7 +1,5 @@
 package site.ymango.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,8 +42,8 @@ public class UserEntity {
   private String password;
 
   @Column(name = "status")
-  @JsonSetter(nulls = Nulls.SKIP)
   @Enumerated(EnumType.STRING)
+  @Builder.Default
   private UserStatus status = UserStatus.ACTIVE;
 
   @CreatedDate
