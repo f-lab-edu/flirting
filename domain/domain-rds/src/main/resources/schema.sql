@@ -45,9 +45,9 @@ create spatial index user_profile_ix_location
     on service.user_profile (location);
 
 
-create table service.user_company
+create table service.company
 (
-    user_company_id int auto_increment
+    company_id int auto_increment
         primary key,
     name            varchar(255)                        not null comment '회사명',
     domain          varchar(255)                        not null comment '회사 도메인',
@@ -55,7 +55,7 @@ create table service.user_company
     created_at      timestamp default CURRENT_TIMESTAMP not null,
     updated_at      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
     deleted_at      timestamp                           null,
-    constraint user_company_uq_name_domain
+    constraint company_uq_name_domain
         unique (name, domain)
 );
 
@@ -70,5 +70,5 @@ create table service.email_verification
     created_at            timestamp  default CURRENT_TIMESTAMP not null
 );
 
-create index email_verification_ix_email_created_at
-    on service.email_verification (email asc, created_at desc);
+create index email_verification_ix_email
+    on service.email_verification (email asc);

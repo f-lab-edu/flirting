@@ -17,7 +17,7 @@ public record UserProfile(
     Mbti mbti,
     String preferMbti,
     Location location,
-    UserCompany userCompany,
+    Company userCompany,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     LocalDateTime deletedAt

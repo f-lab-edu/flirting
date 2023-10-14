@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import site.ymango.company.entity.CompanyEntity;
 import site.ymango.user.converter.LocationConverter;
 import site.ymango.user.enums.Gender;
 import site.ymango.user.enums.Mbti;
@@ -81,7 +83,7 @@ public class UserProfileEntity {
   @OneToOne(mappedBy = "userProfile")
   private UserEntity userEntity;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "userCompanyId")
-  private UserCompanyEntity userCompany;
+  @ManyToOne
+  @JoinColumn(name = "company_id")
+  private CompanyEntity company;
 }

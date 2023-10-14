@@ -1,13 +1,12 @@
-package site.ymango.user.entity;
+package site.ymango.company.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import org.hibernate.annotations.Where;
@@ -15,13 +14,15 @@ import org.hibernate.annotations.Where;
 @Entity
 @Getter
 @Where(clause = "deleted_at IS NULL")
-@JsonIgnoreProperties({"userProfile"})
-@Table(name = "user_company", catalog = "service")
-public class UserCompanyEntity {
+@Table(
+    name = "company",
+    uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "domain"})}
+)
+public class CompanyEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_company_id")
-  private Integer userCompanyId;
+  @Column(name = "company_id")
+  private Integer companyId;
 
   @Column(name = "name")
   private String name;
@@ -40,7 +41,4 @@ public class UserCompanyEntity {
 
   @Column(name = "deleted_at")
   private LocalDateTime deletedAt;
-
-  @OneToOne(mappedBy = "userCompany")
-  private UserProfileEntity userProfile;
 }

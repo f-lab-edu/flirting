@@ -1,20 +1,18 @@
 package site.ymango.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.ymango.company.repository.CompanyRepository;
 import site.ymango.exception.ErrorCode;
 import site.ymango.exception.BaseException;
 import site.ymango.user.entity.EmailVerificationEntity;
-import site.ymango.user.entity.UserCompanyEntity;
+import site.ymango.company.entity.CompanyEntity;
 import site.ymango.user.entity.UserEntity;
 import site.ymango.user.model.User;
-import site.ymango.user.model.UserCompany;
 import site.ymango.user.repository.EmailVerificationRepository;
-import site.ymango.user.repository.UserCompanyRepository;
+import site.ymango.user.repository.UserProfileRepository;
 import site.ymango.user.repository.UserRepository;
 
 @Service
@@ -22,7 +20,8 @@ import site.ymango.user.repository.UserRepository;
 public class UserService {
 
   private final UserRepository userRepository;
-  private final UserCompanyRepository userCompanyRepository;
+  private final UserProfileRepository userProfileRepository;
+  private final CompanyRepository companyRepository;
   private final EmailVerificationRepository emailVerificationRepository;
   private final ObjectMapper objectMapper;
 
@@ -31,28 +30,26 @@ public class UserService {
         .orElseThrow(() -> new BaseException(ErrorCode.USER_NOT_FOUND)), User.class);
   }
 
-  public List<UserCompany> getUserCompanies() {
-    return userCompanyRepository.findAll().stream()
-        .map(userCompanyEntity -> objectMapper.convertValue(userCompanyEntity, UserCompany.class))
-        .collect(Collectors.toList());
-  }
-
   @Transactional
   public User create(User user, String deviceId) {
-    if (userRepository.existsByEmail(user.email())) {
-      throw new BaseException(ErrorCode.USER_ALREADY_EXISTS);
-    }
-
     if (!emailVerificationRepository.existsByEmailAndDeviceIdAndVerified(user.email(), deviceId, true)) {
       throw new BaseException(ErrorCode.EMAIL_NOT_VERIFIED);
     }
 
-    UserCompanyEntity userCompanyEntity = userCompanyRepository.findByDomain(user.userProfile().userCompany().domain())
+    if (userRepository.existsByEmail(user.email())) {
+      throw new BaseException(ErrorCode.USER_ALREADY_EXISTS);
+    }
+
+    if (userProfileRepository.existsByUsername(user.userProfile().username())) {
+      throw new BaseException(ErrorCode.USERNAME_ALREADY_EXISTS);
+    }
+
+    CompanyEntity companyEntity = companyRepository.findByDomain(user.userProfile().userCompany().domain())
         .orElseThrow(() -> new BaseException(ErrorCode.COMPANY_NOT_FOUND));
 
     UserEntity userEntity = objectMapper.convertValue(user, UserEntity.class);
 
-    userEntity.getUserProfile().setUserCompany(userCompanyEntity);
+    userEntity.getUserProfile().setCompany(companyEntity);
 
     return objectMapper.convertValue(userRepository.save(userEntity), User.class);
   }

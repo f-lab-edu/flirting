@@ -23,6 +23,7 @@ public enum ErrorCode {
   COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, 2006, "회사를 찾을 수 없습니다."),
   EMAIL_VERIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, 2007, "이메일 인증 정보가 유효하지 않습니다."),
   EMAIL_NOT_VERIFIED(HttpStatus.UNAUTHORIZED, 2008, "이메일이 인증되지 않았습니다."),
+  USERNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, 2009, "이미 존재하는 닉네임 입니다."),
 
   // validation
   INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, 4000, "입력값이 올바르지 않습니다."),

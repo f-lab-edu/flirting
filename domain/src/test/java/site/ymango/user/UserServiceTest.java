@@ -9,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import site.ymango.exception.BaseException;
 import site.ymango.user.enums.Gender;
@@ -17,7 +16,7 @@ import site.ymango.user.enums.Mbti;
 import site.ymango.user.enums.UserStatus;
 import site.ymango.user.model.Location;
 import site.ymango.user.model.User;
-import site.ymango.user.model.UserCompany;
+import site.ymango.user.model.Company;
 import site.ymango.user.model.UserProfile;
 
 @SpringBootTest
@@ -93,7 +92,7 @@ class UserServiceTest {
     Location location = new Location(1.0, 2.0);
     String deviceId = "test_device_id";
 
-    UserCompany company = new UserCompany(
+    Company company = new Company(
         null, null, "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
@@ -136,7 +135,7 @@ class UserServiceTest {
     Location location = new Location(1.0, 2.0);
     String deviceId = "test_device_id";
 
-    UserCompany company = new UserCompany(
+    Company company = new Company(
         null, null, "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
@@ -166,7 +165,7 @@ class UserServiceTest {
     Location location = new Location(1.0, 2.0);
     String deviceId = "test_device_id";
 
-    UserCompany company = new UserCompany(
+    Company company = new Company(
         null, null, "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(

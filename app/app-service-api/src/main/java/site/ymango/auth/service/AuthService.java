@@ -18,7 +18,7 @@ import site.ymango.exception.ErrorCode;
 import site.ymango.user.UserService;
 import site.ymango.user.model.Location;
 import site.ymango.user.model.User;
-import site.ymango.user.model.UserCompany;
+import site.ymango.user.model.Company;
 import site.ymango.user.model.UserProfile;
 import site.ymango.util.GenerateUtil;
 
@@ -60,7 +60,7 @@ public class AuthService {
             .sido(request.sido())
             .sigungu(request.sigungu())
             .location(new Location(request.latitude(), request.longitude()))
-            .userCompany(UserCompany.builder()
+            .userCompany(Company.builder()
                 .domain(companyDomain)
                 .build())
             .build())

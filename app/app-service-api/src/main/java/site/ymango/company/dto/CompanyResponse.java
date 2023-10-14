@@ -1,9 +1,11 @@
-package site.ymango.user.dto;
+package site.ymango.company.dto;
 
 import java.time.LocalDateTime;
+import lombok.Builder;
 
-public record UserCompanyResponse(
-    Integer userCompanyId,
+@Builder
+public record CompanyResponse(
+    Integer companyId,
     String name,
     String domain,
     String iconUrl,
