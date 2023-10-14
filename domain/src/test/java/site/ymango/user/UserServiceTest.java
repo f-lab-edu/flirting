@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.ymango.exception.BaseException;
 import site.ymango.user.enums.Gender;
 import site.ymango.user.enums.Mbti;
+import site.ymango.user.enums.PerferMbti;
 import site.ymango.user.enums.UserStatus;
 import site.ymango.user.model.Location;
 import site.ymango.user.model.User;
@@ -88,7 +89,7 @@ class UserServiceTest {
     String sido = "서울";
     String sigungu = "강남구";
     Mbti mbti = Mbti.INFJ;
-    String preferMbti = "EOFP";
+    PerferMbti preferMbti = PerferMbti.IOFJ;
     Location location = new Location(1.0, 2.0);
     String deviceId = "test_device_id";
 
@@ -131,7 +132,7 @@ class UserServiceTest {
     String sido = "서울";
     String sigungu = "강남구";
     Mbti mbti = Mbti.INFJ;
-    String preferMbti = "EOFP";
+    PerferMbti preferMbti = PerferMbti.IOFJ;
     Location location = new Location(1.0, 2.0);
     String deviceId = "test_device_id";
 
@@ -161,7 +162,7 @@ class UserServiceTest {
     String sido = "서울";
     String sigungu = "강남구";
     Mbti mbti = Mbti.INFJ;
-    String preferMbti = "EOFP";
+    PerferMbti preferMbti = PerferMbti.IOFJ;
     Location location = new Location(1.0, 2.0);
     String deviceId = "test_device_id";
 

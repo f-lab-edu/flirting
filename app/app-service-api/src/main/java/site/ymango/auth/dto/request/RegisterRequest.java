@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import site.ymango.user.enums.Gender;
 import site.ymango.user.enums.Mbti;
+import site.ymango.user.enums.PerferMbti;
 
 public record RegisterRequest(
     String email,
@@ -12,7 +13,7 @@ public record RegisterRequest(
     String username,
     @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate birthdate,
     Mbti mbti,
-    String preferMbti,
+    PerferMbti preferMbti,
     String sido,
     String sigungu,
     Double latitude,

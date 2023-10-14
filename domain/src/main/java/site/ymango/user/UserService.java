@@ -10,6 +10,7 @@ import site.ymango.exception.BaseException;
 import site.ymango.user.entity.EmailVerificationEntity;
 import site.ymango.company.entity.CompanyEntity;
 import site.ymango.user.entity.UserEntity;
+import site.ymango.user.entity.UserProfileEntity;
 import site.ymango.user.model.User;
 import site.ymango.user.repository.EmailVerificationRepository;
 import site.ymango.user.repository.UserProfileRepository;
@@ -47,9 +48,22 @@ public class UserService {
     CompanyEntity companyEntity = companyRepository.findByDomain(user.userProfile().userCompany().domain())
         .orElseThrow(() -> new BaseException(ErrorCode.COMPANY_NOT_FOUND));
 
-    UserEntity userEntity = objectMapper.convertValue(user, UserEntity.class);
-
-    userEntity.getUserProfile().setCompany(companyEntity);
+    UserEntity userEntity = UserEntity.builder()
+        .email(user.email())
+        .password(user.password())
+        .userProfile(UserProfileEntity.builder()
+            .username(user.userProfile().username())
+            .gender(user.userProfile().gender())
+            .birthdate(user.userProfile().birthdate())
+            .sido(user.userProfile().sido())
+            .sigungu(user.userProfile().sigungu())
+            .location(user.userProfile().location())
+            .mbti(user.userProfile().mbti())
+            .preferMbti(user.userProfile().preferMbti())
+            .company(companyEntity)
+            .build()
+        )
+        .build();
 
     return objectMapper.convertValue(userRepository.save(userEntity), User.class);
   }

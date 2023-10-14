@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import site.ymango.user.enums.Gender;
 import site.ymango.user.enums.Mbti;
+import site.ymango.user.enums.PerferMbti;
 
 @Builder
 public record UserProfile(
@@ -15,7 +16,7 @@ public record UserProfile(
     String sido,
     String sigungu,
     Mbti mbti,
-    String preferMbti,
+    PerferMbti preferMbti,
     Location location,
     Company userCompany,
     LocalDateTime createdAt,

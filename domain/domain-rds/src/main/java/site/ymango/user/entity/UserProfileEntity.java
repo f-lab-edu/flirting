@@ -1,7 +1,6 @@
 package site.ymango.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -17,7 +16,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
@@ -27,11 +29,14 @@ import site.ymango.company.entity.CompanyEntity;
 import site.ymango.user.converter.LocationConverter;
 import site.ymango.user.enums.Gender;
 import site.ymango.user.enums.Mbti;
+import site.ymango.user.enums.PerferMbti;
 import site.ymango.user.model.Location;
 
 @Getter
-@Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties({"userEntity"})
 @Table(name = "user_profile", catalog = "service")
 @Where(clause = "deleted_at IS NULL")
@@ -63,7 +68,7 @@ public class UserProfileEntity {
   private Mbti mbti;
 
   @Column(name = "prefer_mbti")
-  private String preferMbti;
+  private PerferMbti preferMbti;
 
   @Column(name = "location")
   @Convert(converter = LocationConverter.class)
