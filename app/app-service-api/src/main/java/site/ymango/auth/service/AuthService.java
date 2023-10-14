@@ -78,7 +78,7 @@ public class AuthService {
   }
 
   public void sendVerificationNumber(String email, String deviceId) {
-    NotificationTemplate verifyEmail = NotificationTemplate.VERIFY_EMAIL;
+    NotificationTemplate verifyEmail = NotificationTemplate.EMAIL_VERIFICATION;
     String verificationNumber = GenerateUtil.generateRandomNumber(4);
     notificationServiceFactory.get(verifyEmail.getSendType()).send(email, verifyEmail, Map.of("verificationNumber", verificationNumber));
     userService.createEmailVerification(email, deviceId, verificationNumber);

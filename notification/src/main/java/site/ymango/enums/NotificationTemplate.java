@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum NotificationTemplate {
-  VERIFY_EMAIL(SendType.EMAIL, "10880"),
+  EMAIL_VERIFICATION(SendType.EMAIL, "10880"),
   ;
 
   private final SendType sendType;
