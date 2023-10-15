@@ -26,6 +26,7 @@ public class UserService {
   private final EmailVerificationRepository emailVerificationRepository;
   private final ObjectMapper objectMapper;
 
+  @Transactional(readOnly = true)
   public User getUser(String email) {
     return objectMapper.convertValue(userRepository.findByEmail(email)
         .orElseThrow(() -> new BaseException(ErrorCode.USER_NOT_FOUND)), User.class);
@@ -68,6 +69,7 @@ public class UserService {
     return objectMapper.convertValue(userRepository.save(userEntity), User.class);
   }
 
+  @Transactional
   public void createEmailVerification(String email, String deviceId, String verificationNumber) {
     if (emailVerificationRepository.existsByEmailAndDeviceIdAndVerificationNumberAndVerified(email, deviceId, verificationNumber, false)) {
       return;

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import site.ymango.company.repository.CompanyRepository;
 import site.ymango.user.model.Company;
 
@@ -13,6 +14,7 @@ import site.ymango.user.model.Company;
 public class CompanyService {
   private final CompanyRepository userCompanyRepository;
 
+  @Transactional(readOnly = true)
   public List<Company> getCompanies(String keyword, Pageable pageable) {
     return userCompanyRepository.findByName(keyword, pageable).stream()
         .map(company -> Company.builder()
