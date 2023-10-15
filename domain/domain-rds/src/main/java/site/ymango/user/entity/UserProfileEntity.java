@@ -1,36 +1,21 @@
 package site.ymango.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import site.ymango.user.enums.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import site.ymango.user.model.Location;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import site.ymango.company.entity.CompanyEntity;
 import site.ymango.user.converter.LocationConverter;
-import site.ymango.user.enums.Gender;
-import site.ymango.user.enums.Mbti;
-import site.ymango.user.enums.PerferMbti;
-import site.ymango.user.model.Location;
 
 @Getter
 @Entity
@@ -38,10 +23,13 @@ import site.ymango.user.model.Location;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"userEntity"})
-@Table(name = "user_profile", catalog = "service")
+@Table(name = "user_profile", catalog = "service", indexes = {
+    @Index(name = "user_profile_ix_birthdate", columnList = "birthdate"),
+})
 @Where(clause = "deleted_at IS NULL")
 @EntityListeners(AuditingEntityListener.class)
 public class UserProfileEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_profile_id")

@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -27,9 +28,10 @@ import site.ymango.user.enums.UserStatus;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user", catalog = "service")
+@Table(name = "user", catalog = "service", indexes = {@Index(name = "user_ix_email", columnList = "email")})
 @EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_id")

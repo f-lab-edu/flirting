@@ -6,6 +6,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "email_verification", catalog = "service")
+@Table(name = "email_verification", catalog = "service", indexes = {
+    @Index(name = "email_verification_ix_email", columnList = "email"),
+})
 public class EmailVerificationEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

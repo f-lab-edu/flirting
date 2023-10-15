@@ -38,12 +38,11 @@ create table service.user_profile
         unique (username)
 );
 
-create index user_profile_ix_birthdate_gender
-    on service.user_profile (birthdate, mbti, gender);
+create index user_profile_ix_birthdate
+    on service.user_profile (birthdate);
 
 create spatial index user_profile_ix_location
     on service.user_profile (location);
-
 
 create table service.company
 (
