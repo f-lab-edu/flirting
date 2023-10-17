@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 public record AuthenticationRequest(
     @Email
     String email,
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\\\d)(?=.*\\\\W).{8,20}$")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}$")
     String password
 ) {
 
