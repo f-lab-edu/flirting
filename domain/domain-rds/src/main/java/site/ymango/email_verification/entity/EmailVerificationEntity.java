@@ -1,4 +1,4 @@
-package site.ymango.user.entity;
+package site.ymango.email_verification.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

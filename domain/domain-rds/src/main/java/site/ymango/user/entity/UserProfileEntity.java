@@ -77,7 +77,6 @@ public class UserProfileEntity {
   @OneToOne(mappedBy = "userProfile")
   private UserEntity userEntity;
 
-  @ManyToOne
-  @JoinColumn(name = "company_id")
-  private CompanyEntity company;
+  @Column(name = "company_id")
+  private Integer companyId;
 }

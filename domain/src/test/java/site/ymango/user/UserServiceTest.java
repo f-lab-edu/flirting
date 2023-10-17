@@ -1,16 +1,15 @@
 package site.ymango.user;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import site.ymango.email_verification.EmailVerificationService;
 import site.ymango.exception.BaseException;
-import site.ymango.user.entity.EmailVerificationEntity;
+import site.ymango.email_verification.entity.EmailVerificationEntity;
 import site.ymango.user.entity.UserEntity;
 import site.ymango.user.enums.Gender;
 import site.ymango.user.enums.Mbti;
@@ -20,7 +19,7 @@ import site.ymango.user.model.Location;
 import site.ymango.user.model.User;
 import site.ymango.user.model.Company;
 import site.ymango.user.model.UserProfile;
-import site.ymango.user.repository.EmailVerificationRepository;
+import site.ymango.email_verification.repository.EmailVerificationRepository;
 import site.ymango.user.repository.UserRepository;
 
 @SpringBootTest
@@ -28,6 +27,9 @@ class UserServiceTest {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private EmailVerificationService emailVerificationService;
 
   @Autowired
   private UserRepository userRepository;
@@ -42,54 +44,6 @@ class UserServiceTest {
     BaseException baseException = assertThrows(BaseException.class, () -> userService.getUser(email));
     assertEquals("사용자를 찾을 수 없습니다.", baseException.getMessage());
   }
-
-  @Test
-  @DisplayName("이메일 인증 요청 생성")
-  void createEmailVerification() {
-    String email = "test@test.io";
-    String deviceId = "deviceId";
-    String verificationNumber = "1234";
-
-    userService.createEmailVerification(email, deviceId, verificationNumber);
-
-    EmailVerificationEntity emailVerification = emailVerificationRepository.findByEmailAndDeviceIdAndVerificationNumberAndVerified(
-        email, deviceId, verificationNumber, false).orElseThrow(() -> new IllegalArgumentException("이메일 인증 요청을 찾을 수 없습니다."));
-
-    assertEquals(email, emailVerification.getEmail());
-    assertEquals(deviceId, emailVerification.getDeviceId());
-    assertEquals(verificationNumber, emailVerification.getVerificationNumber());
-
-    emailVerificationRepository.delete(emailVerification);
-  }
-
-  @Test
-  @DisplayName("이메일 검증 - 성공")
-  void verifyEmail1() {
-    String email = "test@test.com";
-    String deviceId = "test_device_id";
-    String verificationNumber = "1234";
-
-    userService.createEmailVerification(email, deviceId, verificationNumber);
-    userService.verifyEmail(email, deviceId, verificationNumber);
-
-    EmailVerificationEntity emailVerification = emailVerificationRepository.findByEmailAndDeviceIdAndVerificationNumberAndVerified(
-        email, deviceId, verificationNumber, true).orElseThrow(() -> new IllegalArgumentException("이메일 인증 요청을 찾을 수 없습니다."));
-
-    assertTrue(emailVerification.isVerified());
-    emailVerificationRepository.delete(emailVerification);
-  }
-
-  @Test
-  @DisplayName("이메일 검증 - 이메일 인증 정보가 유효하지 않습니다.")
-  void verifyEmail2() {
-    String email = "test2@test.com";
-    String deviceId = "test_device_id";
-    String verificationNumber = "1234";
-
-    BaseException baseException = assertThrows(BaseException.class, () -> userService.verifyEmail(email, deviceId, verificationNumber));
-    assertEquals("이메일 인증 정보가 유효하지 않습니다.", baseException.getMessage());
-  }
-
 
   @Test
   @DisplayName("회원가입 - 성공")
@@ -119,8 +73,8 @@ class UserServiceTest {
     );
 
     // when
-    userService.createEmailVerification(email, deviceId, verificationNumber);
-    userService.verifyEmail(email, deviceId, verificationNumber);
+    emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
+    emailVerificationService.verifyEmail(email, deviceId, verificationNumber);
     User newUser = userService.create(user, deviceId);
 
     // then
@@ -204,8 +158,8 @@ class UserServiceTest {
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
     );
 
-    userService.createEmailVerification(email, deviceId, verificationNumber);
-    userService.verifyEmail(email, deviceId, verificationNumber);
+    emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
+    emailVerificationService.verifyEmail(email, deviceId, verificationNumber);
 
     // when then
     BaseException baseException = assertThrows(BaseException.class, () -> userService.create(user, deviceId));

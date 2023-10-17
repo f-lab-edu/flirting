@@ -12,6 +12,7 @@ import site.ymango.NotificationServiceFactory;
 import site.ymango.auth.dto.request.AuthenticationRequest;
 import site.ymango.auth.dto.request.RegisterRequest;
 import site.ymango.auth.dto.response.AuthenticationResponse;
+import site.ymango.email_verification.EmailVerificationService;
 import site.ymango.enums.NotificationTemplate;
 import site.ymango.exception.BaseException;
 import site.ymango.exception.ErrorCode;
@@ -27,6 +28,7 @@ import site.ymango.util.GenerateUtil;
 public class AuthService {
 
   private final UserService userService;
+  private final EmailVerificationService emailVerificationService;
   private final JwtService jwtService;
   private final PasswordEncoder passwordEncoder;
   private final AuthenticationManager authenticationManager;
@@ -72,7 +74,7 @@ public class AuthService {
   }
 
   public void verifyEmail(String email, String deviceId, String verificationNumber) {
-    if (!userService.verifyEmail(email, deviceId, verificationNumber)) {
+    if (!emailVerificationService.verifyEmail(email, deviceId, verificationNumber)) {
       throw new BaseException(ErrorCode.VERIFICATION_FAILED);
     }
   }
@@ -81,6 +83,6 @@ public class AuthService {
     NotificationTemplate verifyEmail = NotificationTemplate.EMAIL_VERIFICATION;
     String verificationNumber = GenerateUtil.generateRandomNumber(4);
     notificationServiceFactory.get(verifyEmail.getSendType()).send(email, verifyEmail, Map.of("verificationNumber", verificationNumber));
-    userService.createEmailVerification(email, deviceId, verificationNumber);
+    emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
   }
 }
