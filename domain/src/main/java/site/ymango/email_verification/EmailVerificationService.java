@@ -38,4 +38,9 @@ public class EmailVerificationService {
     emailVerificationRepository.save(emailVerification);
     return true;
   }
+
+  @Transactional(readOnly = true)
+  public boolean isVerified(String email, String deviceId, boolean verified) {
+    return emailVerificationRepository.existsByEmailAndDeviceIdAndVerified(email, deviceId, verified);
+  }
 }

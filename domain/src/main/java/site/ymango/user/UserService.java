@@ -5,13 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.ymango.company.CompanyService;
+import site.ymango.email_verification.EmailVerificationService;
 import site.ymango.exception.ErrorCode;
 import site.ymango.exception.BaseException;
 import site.ymango.user.entity.UserEntity;
 import site.ymango.user.entity.UserProfileEntity;
 import site.ymango.user.model.Company;
 import site.ymango.user.model.User;
-import site.ymango.email_verification.repository.EmailVerificationRepository;
 import site.ymango.user.model.UserProfile;
 import site.ymango.user.repository.UserProfileRepository;
 import site.ymango.user.repository.UserRepository;
@@ -23,7 +23,7 @@ public class UserService {
   private final UserRepository userRepository;
   private final UserProfileRepository userProfileRepository;
   private final CompanyService companyService;
-  private final EmailVerificationRepository emailVerificationRepository;
+  private final EmailVerificationService emailVerificationService;
   private final ObjectMapper objectMapper;
 
   @Transactional(readOnly = true)
@@ -59,7 +59,7 @@ public class UserService {
 
   @Transactional
   public User create(User user, String deviceId) {
-    if (!emailVerificationRepository.existsByEmailAndDeviceIdAndVerified(user.email(), deviceId, true)) {
+    if (!emailVerificationService.isVerified(user.email(), deviceId, true)) {
       throw new BaseException(ErrorCode.EMAIL_NOT_VERIFIED);
     }
 
