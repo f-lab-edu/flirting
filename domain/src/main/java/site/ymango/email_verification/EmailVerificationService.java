@@ -11,11 +11,12 @@ import site.ymango.exception.ErrorCode;
 @Service
 @RequiredArgsConstructor
 public class EmailVerificationService {
+
   private final EmailVerificationRepository emailVerificationRepository;
 
   @Transactional
   public void createEmailVerification(String email, String deviceId, String verificationNumber) {
-    if (emailVerificationRepository.existsByEmailAndDeviceIdAndVerificationNumberAndVerified(email, deviceId, verificationNumber, false)) {
+    if (emailVerificationRepository.exists(email, deviceId, verificationNumber, false)) {
       return;
     }
 
@@ -30,7 +31,7 @@ public class EmailVerificationService {
 
   @Transactional
   public boolean verifyEmail(String email, String deviceId, String verificationNumber) {
-    EmailVerificationEntity emailVerification = emailVerificationRepository.findByEmailAndDeviceIdAndVerificationNumberAndVerified(email,
+    EmailVerificationEntity emailVerification = emailVerificationRepository.findOne(email,
         deviceId, verificationNumber, false).orElseThrow(
         () -> new BaseException(ErrorCode.EMAIL_VERIFICATION_NOT_FOUND));
 
@@ -41,6 +42,6 @@ public class EmailVerificationService {
 
   @Transactional(readOnly = true)
   public boolean isVerified(String email, String deviceId, boolean verified) {
-    return emailVerificationRepository.existsByEmailAndDeviceIdAndVerified(email, deviceId, verified);
+    return emailVerificationRepository.exists(email, deviceId, verified);
   }
 }

@@ -30,7 +30,7 @@ class EmailVerificationServiceTest {
     emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
 
     // then
-    EmailVerificationEntity emailVerification = emailVerificationRepository.findByEmailAndDeviceIdAndVerificationNumberAndVerified(
+    EmailVerificationEntity emailVerification = emailVerificationRepository.findOne(
         email, deviceId, verificationNumber, false).orElseThrow(() -> new IllegalArgumentException("이메일 인증 요청을 찾을 수 없습니다."));
 
     assertEquals(email, emailVerification.getEmail());
@@ -56,7 +56,7 @@ class EmailVerificationServiceTest {
 
 
     // then
-    EmailVerificationEntity emailVerification = emailVerificationRepository.findByEmailAndDeviceIdAndVerificationNumberAndVerified(
+    EmailVerificationEntity emailVerification = emailVerificationRepository.findOne(
         email, deviceId, verificationNumber, true).orElseThrow(() -> new IllegalArgumentException("이메일 인증 요청을 찾을 수 없습니다."));
     assertTrue(emailVerification.isVerified());
 
