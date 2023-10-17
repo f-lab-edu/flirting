@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import site.ymango.email_verification.EmailVerificationService;
+import site.ymango.email_verification.repository.EmailVerificationRepository;
 import site.ymango.exception.BaseException;
 import site.ymango.email_verification.entity.EmailVerificationEntity;
 import site.ymango.user.entity.UserEntity;
@@ -19,7 +20,6 @@ import site.ymango.user.model.Location;
 import site.ymango.user.model.User;
 import site.ymango.user.model.Company;
 import site.ymango.user.model.UserProfile;
-import site.ymango.email_verification.repository.EmailVerificationRepository;
 import site.ymango.user.repository.UserRepository;
 
 @SpringBootTest
@@ -96,7 +96,7 @@ class UserServiceTest {
 
     // tear down
     UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-    EmailVerificationEntity emailVerification = emailVerificationRepository.findByEmailAndDeviceIdAndVerificationNumberAndVerified(
+    EmailVerificationEntity emailVerification = emailVerificationRepository.findOne(
         email, deviceId, verificationNumber, true).orElseThrow(() -> new IllegalArgumentException("이메일 인증 요청을 찾을 수 없습니다."));
     userRepository.delete(userEntity);
     emailVerificationRepository.delete(emailVerification);
@@ -166,7 +166,7 @@ class UserServiceTest {
     assertEquals("이미 존재하는 사용자입니다.", baseException.getMessage());
 
     // tear down
-    EmailVerificationEntity emailVerification = emailVerificationRepository.findByEmailAndDeviceIdAndVerificationNumberAndVerified(
+    EmailVerificationEntity emailVerification = emailVerificationRepository.findOne(
         email, deviceId, verificationNumber, true).orElseThrow(() -> new IllegalArgumentException("이메일 인증 요청을 찾을 수 없습니다."));
     emailVerificationRepository.delete(emailVerification);
   }

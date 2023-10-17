@@ -1,20 +1,42 @@
 package site.ymango.company.repository;
 
+
+import static site.ymango.company.entity.QCompanyEntity.companyEntity;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import site.ymango.company.entity.CompanyEntity;
 
 @Repository
-public interface CompanyRepository extends JpaRepository<CompanyEntity, Integer> {
-  Optional<CompanyEntity> findByDomain(String domain);
+@RequiredArgsConstructor
+public class CompanyRepository {
+  private final JPAQueryFactory queryFactory;
 
-  Optional<CompanyEntity> findByCompanyId(Integer companyId);
+  public Optional<CompanyEntity> findByDomain(String domain) {
+    return Optional.ofNullable(queryFactory.selectFrom(companyEntity)
+        .where(companyEntity.domain.eq(domain))
+        .fetchOne());
+  }
 
-  @Query("SELECT c FROM CompanyEntity c WHERE :name IS NULL OR c.name LIKE %:name%")
-  List<CompanyEntity> findByName(@Param("name") String keyword, Pageable pageable);
+  public Optional<CompanyEntity> findByCompanyId(Integer companyId) {
+    return Optional.ofNullable(queryFactory.selectFrom(companyEntity)
+        .where(companyEntity.companyId.eq(companyId))
+        .fetchOne());
+  }
+
+  public Page<CompanyEntity> findByName(String keyword, Pageable pageable) {
+    List<CompanyEntity> results = queryFactory.selectFrom(companyEntity)
+        .where(companyEntity.name.contains(keyword))
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
+        .fetch();
+
+    return new PageImpl<>(results, pageable, results.size());
+  }
 }
