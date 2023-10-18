@@ -22,12 +22,24 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":domain"))
+    implementation(project(":domain:domain-rds"))
+    implementation(project(":gateway"))
+    implementation(project(":notification"))
+
+    // jwt
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<Test> {

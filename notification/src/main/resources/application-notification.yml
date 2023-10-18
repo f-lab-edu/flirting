@@ -1,0 +1,9 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+outbound-mailer:
+  endpoint: ${OUTBOUND_MAILER_ENDPOINT}
+  access-key: ${OUTBOUND_MAILER_ACCESS_KEY}
+  secret-key: ${OUTBOUND_MAILER_SECRET_KEY}
