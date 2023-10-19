@@ -24,6 +24,7 @@ repositories {
 dependencies {
     api(project(":core"))
     implementation(project(":domain:domain-rds"))
+    implementation(project(":domain:domain-redis"))
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")

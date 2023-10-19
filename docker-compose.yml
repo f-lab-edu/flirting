@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  rds:
+  rds-master:
     image: mysql
     restart: always
     environment:
@@ -11,3 +11,9 @@ services:
       MYSQL_DATABASE: service
     ports:
       - "3306:3306"
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
