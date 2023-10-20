@@ -30,7 +30,7 @@ create table service.user_profile
     mbti            char(4)                             not null comment 'ISTJ,ISFJ,INFJ,INTJ,ISTP,ISFP,INFP,INTP,ESTP,ESFP,ENFP,ENTP,ESTJ,ESFJ,ENFJ,ENTJ',
     prefer_mbti     char(4)                             not null comment '선호하는 mbti 상관없으면 O으로 처리',
     location        point                               not null,
-    user_company_id int                                 not null,
+    company_id      int                                 not null,
     created_at      timestamp default CURRENT_TIMESTAMP not null,
     updated_at      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
     deleted_at      timestamp                           null,
@@ -48,12 +48,12 @@ create table service.company
 (
     company_id int auto_increment
         primary key,
-    name            varchar(255)                        not null comment '회사명',
-    domain          varchar(255)                        not null comment '회사 도메인',
-    icon_url        varchar(1000)                       null comment '회사 아이콘 URL',
-    created_at      timestamp default CURRENT_TIMESTAMP not null,
-    updated_at      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
-    deleted_at      timestamp                           null,
+    name       varchar(255)                        not null comment '회사명',
+    domain     varchar(255)                        not null comment '회사 도메인',
+    icon_url   varchar(1000)                       null comment '회사 아이콘 URL',
+    created_at timestamp default CURRENT_TIMESTAMP not null,
+    updated_at timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    deleted_at timestamp                           null,
     constraint company_uq_name_domain
         unique (name, domain)
 );
@@ -71,3 +71,49 @@ create table service.email_verification
 
 create index email_verification_ix_email
     on service.email_verification (email asc);
+
+create table service.point_wallet
+(
+    point_wallet_id bigint auto_increment
+        primary key,
+    user_id         bigint                              not null,
+    point           int                                 not null,
+    bonus_point     int                                 not null,
+    created_at      timestamp default CURRENT_TIMESTAMP not null,
+    updated_at      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    deleted_at      timestamp                           null,
+    constraint point_wallet_uq_user_id
+        unique (user_id)
+);
+
+create table service.point_history
+(
+    point_history_id    bigint auto_increment
+        primary key,
+    point_wallet_id     bigint                              not null,
+    user_id             bigint                              not null,
+    transaction_type    varchar(20)                         not null,
+    amount              int                                 not null,
+    current_point       int                                 not null,
+    current_bonus_point int                                 not null,
+    reference_type      varchar(20)                         null,
+    reference_id        bigint                              null,
+    created_at          timestamp default CURRENT_TIMESTAMP not null
+);
+
+create index point_history_ix_point_wallet_id
+    on service.point_history (point_wallet_id);
+
+create table service.point_bonus_expiration
+(
+    point_bonus_expiration_id bigint auto_increment
+        primary key,
+    point_wallet_id           bigint                              not null,
+    user_id                   bigint                              not null,
+    amount                    int                                 not null,
+    expired_at                timestamp default CURRENT_TIMESTAMP not null,
+    created_at                timestamp default CURRENT_TIMESTAMP not null
+);
+
+create index point_bonus_expiration_ix_point_wallet_id
+    on service.point_bonus_expiration (point_wallet_id);
