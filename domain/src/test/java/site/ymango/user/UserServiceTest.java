@@ -3,6 +3,7 @@ package site.ymango.user;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,12 @@ class UserServiceTest {
 
   @Autowired
   private EmailVerificationRepository emailVerificationRepository;
+
+  @BeforeEach
+  void setUp() {
+    userRepository.deleteAll();
+    emailVerificationRepository.deleteAll();
+  }
 
   @Test
   @DisplayName("회원 조회 - 사용자를 찾을 수 없습니다.")
@@ -92,14 +99,6 @@ class UserServiceTest {
     assertEquals(location, userProfile.location());
     assertEquals(company.name(), userProfile.userCompany().name());
     assertEquals(company.domain(), userProfile.userCompany().domain());
-
-
-    // tear down
-    UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-    EmailVerificationEntity emailVerification = emailVerificationRepository.findOne(
-        email, deviceId, verificationNumber, true).orElseThrow(() -> new IllegalArgumentException("이메일 인증 요청을 찾을 수 없습니다."));
-    userRepository.delete(userEntity);
-    emailVerificationRepository.delete(emailVerification);
   }
 
   @Test
@@ -164,10 +163,5 @@ class UserServiceTest {
     // when then
     BaseException baseException = assertThrows(BaseException.class, () -> userService.create(user, deviceId));
     assertEquals("이미 존재하는 사용자입니다.", baseException.getMessage());
-
-    // tear down
-    EmailVerificationEntity emailVerification = emailVerificationRepository.findOne(
-        email, deviceId, verificationNumber, true).orElseThrow(() -> new IllegalArgumentException("이메일 인증 요청을 찾을 수 없습니다."));
-    emailVerificationRepository.delete(emailVerification);
   }
 }

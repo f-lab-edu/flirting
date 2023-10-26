@@ -2,6 +2,7 @@ package site.ymango.email_verification;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ class EmailVerificationServiceTest {
 
   @Autowired
   private EmailVerificationRepository emailVerificationRepository;
+
+  @BeforeEach
+  void setUp() {
+    emailVerificationRepository.deleteAll();
+  }
 
   @Test
   @DisplayName("이메일 인증 요청 생성")
@@ -36,9 +42,6 @@ class EmailVerificationServiceTest {
     assertEquals(email, emailVerification.getEmail());
     assertEquals(deviceId, emailVerification.getDeviceId());
     assertEquals(verificationNumber, emailVerification.getVerificationNumber());
-
-    // teardown
-    emailVerificationRepository.delete(emailVerification);
   }
 
   @Test
@@ -59,9 +62,6 @@ class EmailVerificationServiceTest {
     EmailVerificationEntity emailVerification = emailVerificationRepository.findOne(
         email, deviceId, verificationNumber, true).orElseThrow(() -> new IllegalArgumentException("이메일 인증 요청을 찾을 수 없습니다."));
     assertTrue(emailVerification.isVerified());
-
-    // teardown
-    emailVerificationRepository.delete(emailVerification);
   }
 
   @Test
