@@ -3,6 +3,7 @@ package site.ymango.point;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ class PointServiceTest {
   @Autowired
   private PointWalletRepository pointWalletRepository;
 
+  @BeforeEach
+  void setUp() {
+    pointWalletRepository.deleteAll();
+  }
+
   @Test
   @DisplayName("포인트 지갑 생성")
   void test() {
@@ -27,9 +33,6 @@ class PointServiceTest {
 
     // then
     assertTrue(pointWalletRepository.existsByUserId(1L));
-
-    // tear down
-    pointWalletRepository.findByUserId(1L).ifPresent(pointWalletRepository::delete);
   }
 
   @Test
@@ -37,9 +40,6 @@ class PointServiceTest {
   void test2() {
     pointService.createPointWallet(1L);
     assertThrows(BaseException.class, () -> pointService.createPointWallet(1L));
-
-    // tear down
-    pointWalletRepository.findByUserId(1L).ifPresent(pointWalletRepository::delete);
   }
 
   @Test
@@ -56,9 +56,6 @@ class PointServiceTest {
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
     assertEquals(100, pointWallet.getPoint());
     assertEquals(0, pointWallet.getBonusPoint());
-
-    // tear down
-    pointWalletRepository.findByUserId(1L).ifPresent(pointWalletRepository::delete);
   }
 
   @Test
@@ -82,9 +79,6 @@ class PointServiceTest {
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
     assertEquals(50, pointWallet.getPoint());
     assertEquals(0, pointWallet.getBonusPoint());
-
-    // tear down
-    pointWalletRepository.findByUserId(1L).ifPresent(pointWalletRepository::delete);
   }
 
   @Test
@@ -103,9 +97,6 @@ class PointServiceTest {
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
     assertEquals(100, pointWallet.getPoint());
     assertEquals(50, pointWallet.getBonusPoint());
-
-    // tear down
-    pointWalletRepository.findByUserId(1L).ifPresent(pointWalletRepository::delete);
   }
 
   @Test
@@ -124,8 +115,5 @@ class PointServiceTest {
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
     assertEquals(50, pointWallet.getPoint());
     assertEquals(0, pointWallet.getBonusPoint());
-
-    // tear down
-    pointWalletRepository.findByUserId(1L).ifPresent(pointWalletRepository::delete);
   }
 }
