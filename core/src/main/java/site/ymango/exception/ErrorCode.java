@@ -20,10 +20,11 @@ public enum ErrorCode {
   USER_NOT_ACTIVE(HttpStatus.UNAUTHORIZED, 2003, "사용자가 비활성화 되어 있습니다."),
   USER_NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, 2004, "사용자 권한이 없습니다."),
   USER_NOT_VERIFIED(HttpStatus.UNAUTHORIZED, 2005, "사용자가 인증되지 않았습니다."),
-  COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, 2006, "회사를 찾을 수 없습니다."),
-  EMAIL_VERIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, 2007, "이메일 인증 정보가 유효하지 않습니다."),
-  EMAIL_NOT_VERIFIED(HttpStatus.UNAUTHORIZED, 2008, "이메일이 인증되지 않았습니다."),
-  USERNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, 2009, "이미 존재하는 닉네임 입니다."),
+  USERNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, 2006, "이미 존재하는 닉네임 입니다."),
+  COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, 2010, "회사를 찾을 수 없습니다."),
+  COMPANY_ALREADY_EXISTS(HttpStatus.CONFLICT, 2011, "이미 존재하는 회사입니다."),
+  EMAIL_VERIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, 2020, "이메일 인증 정보가 유효하지 않습니다."),
+  EMAIL_NOT_VERIFIED(HttpStatus.UNAUTHORIZED, 2021, "이메일이 인증되지 않았습니다."),
 
   // validation
   INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, 4000, "입력값이 올바르지 않습니다."),
