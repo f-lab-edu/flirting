@@ -6,24 +6,22 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import site.ymango.DatabaseClearExtension;
 import site.ymango.exception.BaseException;
 import site.ymango.point.entity.PointWalletEntity;
 import site.ymango.point.repository.PointWalletRepository;
 
 @SpringBootTest
+@ExtendWith(DatabaseClearExtension.class)
 class PointServiceTest {
   @Autowired
   private PointService pointService;
 
   @Autowired
   private PointWalletRepository pointWalletRepository;
-
-  @BeforeEach
-  void setUp() {
-    pointWalletRepository.deleteAll();
-  }
 
   @Test
   @DisplayName("포인트 지갑 생성")

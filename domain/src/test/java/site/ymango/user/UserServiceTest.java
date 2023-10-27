@@ -3,16 +3,15 @@ package site.ymango.user;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import site.ymango.DatabaseClearExtension;
+import site.ymango.company.CompanyService;
 import site.ymango.email_verification.EmailVerificationService;
-import site.ymango.email_verification.repository.EmailVerificationRepository;
 import site.ymango.exception.BaseException;
-import site.ymango.email_verification.entity.EmailVerificationEntity;
-import site.ymango.user.entity.UserEntity;
 import site.ymango.user.enums.Gender;
 import site.ymango.user.enums.Mbti;
 import site.ymango.user.enums.PerferMbti;
@@ -21,9 +20,9 @@ import site.ymango.user.model.Location;
 import site.ymango.user.model.User;
 import site.ymango.user.model.Company;
 import site.ymango.user.model.UserProfile;
-import site.ymango.user.repository.UserRepository;
 
 @SpringBootTest
+@ExtendWith(DatabaseClearExtension.class)
 class UserServiceTest {
 
   @Autowired
@@ -33,16 +32,7 @@ class UserServiceTest {
   private EmailVerificationService emailVerificationService;
 
   @Autowired
-  private UserRepository userRepository;
-
-  @Autowired
-  private EmailVerificationRepository emailVerificationRepository;
-
-  @BeforeEach
-  void setUp() {
-    userRepository.deleteAll();
-    emailVerificationRepository.deleteAll();
-  }
+  private CompanyService companyService;
 
   @Test
   @DisplayName("회원 조회 - 사용자를 찾을 수 없습니다.")
@@ -70,7 +60,7 @@ class UserServiceTest {
     String verificationNumber = "1234";
 
     Company company = new Company(
-        null, null, "gmail.com", null, null, null, null
+        null, "구글", "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
         null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
@@ -78,6 +68,7 @@ class UserServiceTest {
     User user = new User(
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
     );
+    companyService.createCompany(company);
 
     // when
     emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
@@ -148,7 +139,7 @@ class UserServiceTest {
     String verificationNumber = "1234";
 
     Company company = new Company(
-        null, null, "gmail.com", null, null, null, null
+        null, "구글", "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
         null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
@@ -157,10 +148,12 @@ class UserServiceTest {
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
     );
 
+    companyService.createCompany(company);
     emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
     emailVerificationService.verifyEmail(email, deviceId, verificationNumber);
 
     // when then
+    userService.create(user, deviceId);
     BaseException baseException = assertThrows(BaseException.class, () -> userService.create(user, deviceId));
     assertEquals("이미 존재하는 사용자입니다.", baseException.getMessage());
   }

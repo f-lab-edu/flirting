@@ -5,24 +5,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import site.ymango.DatabaseClearExtension;
 import site.ymango.email_verification.entity.EmailVerificationEntity;
 import site.ymango.email_verification.repository.EmailVerificationRepository;
 import site.ymango.exception.BaseException;
 
 @SpringBootTest
+@ExtendWith(DatabaseClearExtension.class)
 class EmailVerificationServiceTest {
   @Autowired
   private EmailVerificationService emailVerificationService;
 
   @Autowired
   private EmailVerificationRepository emailVerificationRepository;
-
-  @BeforeEach
-  void setUp() {
-    emailVerificationRepository.deleteAll();
-  }
 
   @Test
   @DisplayName("이메일 인증 요청 생성")
