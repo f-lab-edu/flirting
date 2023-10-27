@@ -63,4 +63,16 @@ public class CompanyService {
         .deletedAt(companyEntity.getDeletedAt())
         .build();
   }
+
+  public void createCompany(Company company) {
+    if (companyRepository.existsByDomain(company.domain())) {
+      throw new BaseException(ErrorCode.COMPANY_ALREADY_EXISTS);
+    }
+
+    companyRepository.save(CompanyEntity.builder()
+        .name(company.name())
+        .domain(company.domain())
+        .iconUrl(company.iconUrl())
+        .build());
+  }
 }
