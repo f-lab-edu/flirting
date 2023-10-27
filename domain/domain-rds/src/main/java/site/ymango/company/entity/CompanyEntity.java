@@ -2,6 +2,7 @@ package site.ymango.company.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +14,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
@@ -24,6 +28,7 @@ import org.hibernate.annotations.Where;
     name = "company",
     uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "domain"})}
 )
+@EntityListeners(AuditingEntityListener.class)
 public class CompanyEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,9 +44,12 @@ public class CompanyEntity {
   @Column(name = "icon_url")
   private String iconUrl;
 
+  @CreatedDate
   @Column(name = "created_at")
   private LocalDateTime createdAt;
 
+  @CreatedDate
+  @LastModifiedDate
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
