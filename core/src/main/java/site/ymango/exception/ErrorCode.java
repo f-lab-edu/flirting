@@ -21,6 +21,7 @@ public enum ErrorCode {
   USER_NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED, 2004, "사용자 권한이 없습니다."),
   USER_NOT_VERIFIED(HttpStatus.UNAUTHORIZED, 2005, "사용자가 인증되지 않았습니다."),
   USERNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, 2006, "이미 존재하는 닉네임 입니다."),
+  USER_PROFILE_NOT_FOUND(HttpStatus.NOT_FOUND, 2007, "사용자 프로필을 찾을 수 없습니다."),
   COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, 2010, "회사를 찾을 수 없습니다."),
   COMPANY_ALREADY_EXISTS(HttpStatus.CONFLICT, 2011, "이미 존재하는 회사입니다."),
   EMAIL_VERIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, 2020, "이메일 인증 정보가 유효하지 않습니다."),
@@ -34,6 +35,9 @@ public enum ErrorCode {
   POINT_WALLET_ALREADY_EXISTS(HttpStatus.CONFLICT, 5001, "이미 존재하는 포인트 지갑입니다."),
   POINT_NOT_ENOUGH(HttpStatus.BAD_REQUEST, 5002, "포인트가 부족합니다."),
   POINT_HISTORY_NOT_FOUND(HttpStatus.NOT_FOUND, 5003, "포인트 내역을 찾을 수 없습니다."),
+
+  // recommend
+  RECOMMEND_PROFILE_NOT_FOUND(HttpStatus.NOT_FOUND, 6000, "추천 프로필을 찾을 수 없습니다."),
 
 
   UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR ,9999, "알 수 없는 에러가 발생했습니다.");
