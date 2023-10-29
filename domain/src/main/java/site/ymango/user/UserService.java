@@ -2,6 +2,7 @@ package site.ymango.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.ymango.company.CompanyService;
@@ -12,6 +13,7 @@ import site.ymango.user.entity.UserEntity;
 import site.ymango.user.entity.UserProfileEntity;
 import site.ymango.user.model.Company;
 import site.ymango.user.model.User;
+import site.ymango.user.model.UserCreateEvent;
 import site.ymango.user.model.UserProfile;
 import site.ymango.user.repository.UserProfileRepository;
 import site.ymango.user.repository.UserRepository;
@@ -25,6 +27,7 @@ public class UserService {
   private final CompanyService companyService;
   private final EmailVerificationService emailVerificationService;
   private final ObjectMapper objectMapper;
+  private final ApplicationEventPublisher applicationEventPublisher;
 
   @Transactional(readOnly = true)
   public User getUser(String email) {
@@ -90,6 +93,13 @@ public class UserService {
         )
         .build();
 
-    return objectMapper.convertValue(userRepository.save(userEntity), User.class);
+    User createdUser = objectMapper.convertValue(userRepository.save(userEntity), User.class);
+
+    applicationEventPublisher.publishEvent(UserCreateEvent.builder()
+        .userId(createdUser.userId())
+        .build()
+    );
+
+    return createdUser;
   }
 }

@@ -9,6 +9,7 @@
 flowchart TB
     subgraph 애플리케이션
 		app_service_api[app-service-api]
+		app_point_consumer[app-point-consumer]
     end
 
     subgraph 내부모듈
@@ -36,6 +37,7 @@ flowchart TB
 ### 애플리케이션
 > 독립적으로 실행가능한 애플리케이션 모듈 계층
 - `app-service-api`: 플러팅 앱 서비스 API (**port: 8880**)
+- `app-point-consumer`: 포인트 이벤트 컨슈머 (**port: 8881**)
 
 ### 공통
 > 공통 모듈 (Type, Util..)
@@ -44,6 +46,7 @@ flowchart TB
 ### 도메인
 > 시스템의 중심 도메인을 다루는 모듈
 - `domain-rds`: 관계형 데이터베이스 도메인
+- `domain-redis`: Redis 도메인
 
 ### 내부모듈
 > 시스템 전체적인 기능을 서포트하기 위한 기능 모듈
