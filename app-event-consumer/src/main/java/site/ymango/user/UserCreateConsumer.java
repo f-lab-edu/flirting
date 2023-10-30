@@ -1,4 +1,4 @@
-package site.ymango;
+package site.ymango.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
