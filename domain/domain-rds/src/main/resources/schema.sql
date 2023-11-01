@@ -86,6 +86,21 @@ create table service.point_wallet
         unique (user_id)
 );
 
+create table service.point_event
+(
+    point_event_id            bigint auto_increment
+        primary key,
+    point_wallet_id           bigint       null,
+    user_id                   bigint       null,
+    event_type                varchar(255) null,
+    bonus_point_expiration_id bigint       null,
+    created_at                timestamp    null
+);
+
+create index point_event_ix_point_wallet_id
+    on service.point_event (point_wallet_id);
+
+
 create table service.point_history
 (
     point_history_id    bigint auto_increment
@@ -93,11 +108,10 @@ create table service.point_history
     point_wallet_id     bigint                              not null,
     user_id             bigint                              not null,
     transaction_type    varchar(20)                         not null,
+    summary             varchar(255)                        null,
     amount              int                                 not null,
     current_point       int                                 not null,
     current_bonus_point int                                 not null,
-    reference_type      varchar(20)                         null,
-    reference_id        bigint                              null,
     created_at          timestamp default CURRENT_TIMESTAMP not null
 );
 
