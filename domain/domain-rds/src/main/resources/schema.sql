@@ -79,6 +79,7 @@ create table service.point_wallet
     user_id         bigint                              not null,
     point           int                                 not null,
     bonus_point     int                                 not null,
+    version         int                                 null comment '낙관적 락',
     created_at      timestamp default CURRENT_TIMESTAMP not null,
     updated_at      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
     deleted_at      timestamp                           null,
