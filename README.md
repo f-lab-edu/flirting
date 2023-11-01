@@ -9,7 +9,7 @@
 flowchart TB
     subgraph 애플리케이션
 		app_service_api[app-service-api]
-		app_point_consumer[app-point-consumer]
+		app_event_consumer[app-event-consumer]
     end
 
     subgraph 내부모듈

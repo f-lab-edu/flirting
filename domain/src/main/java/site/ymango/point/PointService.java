@@ -7,11 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 import site.ymango.exception.BaseException;
 import site.ymango.exception.ErrorCode;
 import site.ymango.point.entity.PointBonusExpirationEntity;
+import site.ymango.point.entity.PointEventEntity;
 import site.ymango.point.entity.PointHistoryEntity;
 import site.ymango.point.entity.PointWalletEntity;
-import site.ymango.point.enums.ReferenceType;
+import site.ymango.point.enums.EventType;
 import site.ymango.point.enums.TransactionType;
 import site.ymango.point.repository.PointBonusExpirationRepository;
+import site.ymango.point.repository.PointEventRepository;
 import site.ymango.point.repository.PointHistoryRepository;
 import site.ymango.point.repository.PointWalletRepository;
 
@@ -21,9 +23,11 @@ public class PointService {
 
   private final PointWalletRepository pointRepository;
   private final PointHistoryRepository pointHistoryRepository;
+  private final PointEventRepository pointEventRepository;
 
   private final PointBonusExpirationRepository pointBonusExpirationRepository;
 
+  @Transactional
   public void createPointWallet(Long userId) {
     if (pointRepository.existsByUserId(userId)) {
       throw new BaseException(ErrorCode.POINT_WALLET_ALREADY_EXISTS);
@@ -35,11 +39,17 @@ public class PointService {
   }
 
   @Transactional
-  public void addPoint(Long userId, Integer point, ReferenceType referenceType, Long referenceId) {
+  public void addPoint(Long userId, Integer point, EventType eventType) {
     PointWalletEntity pointWallet = pointRepository.findByUserId(userId).orElseThrow(() -> new BaseException(ErrorCode.POINT_WALLET_NOT_FOUND))
         .addPoint(point);
 
     pointRepository.save(pointWallet);
+
+    pointEventRepository.save(PointEventEntity.builder()
+            .userId(userId)
+            .pointWalletId(pointWallet.getPointWalletId())
+            .eventType(eventType)
+            .build());
 
     pointHistoryRepository.save(PointHistoryEntity.builder()
         .userId(userId)
@@ -48,19 +58,23 @@ public class PointService {
         .currentPoint(pointWallet.getPoint())
         .currentBonusPoint(pointWallet.getBonusPoint())
         .transactionType(TransactionType.ADD_POINT)
-        .referenceType(referenceType)
-        .referenceId(referenceId)
         .build());
   }
 
   @Transactional
-  public void addBonusPoint(Long userId, Integer bonusPoint, LocalDateTime expiredAt) {
+  public void addBonusPoint(Long userId, Integer bonusPoint, LocalDateTime expiredAt, EventType eventType) {
     PointWalletEntity pointWallet = pointRepository.findByUserId(userId).orElseThrow(() -> new BaseException(ErrorCode.POINT_WALLET_NOT_FOUND))
         .addBonusPoint(bonusPoint);
 
     pointRepository.save(pointWallet);
 
-    PointBonusExpirationEntity pointBonusExpiration = pointBonusExpirationRepository.save(PointBonusExpirationEntity.builder()
+    pointEventRepository.save(PointEventEntity.builder()
+        .userId(userId)
+        .pointWalletId(pointWallet.getPointWalletId())
+        .eventType(eventType)
+        .build());
+
+    pointBonusExpirationRepository.save(PointBonusExpirationEntity.builder()
         .pointWalletId(pointWallet.getPointWalletId())
         .userId(userId)
         .amount(bonusPoint)
@@ -74,17 +88,21 @@ public class PointService {
         .currentPoint(pointWallet.getPoint())
         .currentBonusPoint(pointWallet.getBonusPoint())
         .transactionType(TransactionType.ADD_BONUS_POINT)
-        .referenceType(ReferenceType.EXPIRE_BONUS_POINT)
-        .referenceId(pointBonusExpiration.getPointBonusExpirationId())
         .build());
   }
 
   @Transactional
-  public void usePoint(Long userId, Integer point, ReferenceType referenceType, Long referenceId) {
+  public void usePoint(Long userId, Integer point, EventType eventType) {
     PointWalletEntity pointWallet = settleBonusPoint(
         pointRepository.findByUserId(userId).orElseThrow(() -> new BaseException(ErrorCode.POINT_WALLET_NOT_FOUND))).usePoint(point);
 
     pointRepository.save(pointWallet);
+
+    pointEventRepository.save(PointEventEntity.builder()
+        .userId(userId)
+        .pointWalletId(pointWallet.getPointWalletId())
+        .eventType(eventType)
+        .build());
 
     pointHistoryRepository.save(PointHistoryEntity.builder()
         .userId(userId)
@@ -93,8 +111,6 @@ public class PointService {
         .currentPoint(pointWallet.getPoint())
         .currentBonusPoint(pointWallet.getBonusPoint())
         .transactionType(TransactionType.USE_POINT)
-        .referenceType(referenceType)
-        .referenceId(referenceId)
         .build());
   }
 
@@ -105,19 +121,23 @@ public class PointService {
    */
   private PointWalletEntity settleBonusPoint(PointWalletEntity pointWallet) {
     pointBonusExpirationRepository.findNotExpiredBonusPoint(pointWallet.getPointWalletId(), LocalDateTime.now())
-        .stream().map(pointBonusExpiration -> {
+        .forEach(pointBonusExpiration -> {
           pointWallet.usePoint(pointBonusExpiration.getAmount());
-          return PointHistoryEntity.builder()
+          pointHistoryRepository.save(PointHistoryEntity.builder()
               .userId(pointWallet.getUserId())
               .pointWalletId(pointWallet.getPointWalletId())
               .currentPoint(pointWallet.getPoint())
               .amount(pointBonusExpiration.getAmount())
               .currentBonusPoint(pointWallet.getBonusPoint())
               .transactionType(TransactionType.EXPIRE_BONUS_POINT)
-              .referenceType(ReferenceType.EXPIRE_BONUS_POINT)
-              .referenceId(pointBonusExpiration.getPointBonusExpirationId())
-              .build();
-        }).forEach(pointHistoryRepository::save);
+              .build());
+          pointEventRepository.save(PointEventEntity.builder()
+              .userId(pointWallet.getUserId())
+              .pointWalletId(pointWallet.getPointWalletId())
+              .eventType(EventType.EXPIRATION)
+              .bonusPointExpirationId(pointBonusExpiration.getPointBonusExpirationId())
+              .build());
+        });
     return pointRepository.save(pointWallet);
   }
 }
