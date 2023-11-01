@@ -38,6 +38,10 @@ public class PointWalletEntity {
   @Builder.Default
   private Integer bonusPoint = 0;
 
+  @Version
+  @Column(name = "version")
+  private Integer version;
+
   @CreatedDate
   @LastModifiedDate
   @Column(name = "updated_at")
