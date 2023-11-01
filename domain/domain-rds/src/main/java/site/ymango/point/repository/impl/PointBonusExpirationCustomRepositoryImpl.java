@@ -1,7 +1,7 @@
-package site.ymango.point.repository;
+package site.ymango.point.repository.impl;
 
 import static site.ymango.point.entity.QPointBonusExpirationEntity.pointBonusExpirationEntity;
-import static site.ymango.point.entity.QPointHistoryEntity.pointHistoryEntity;
+import static site.ymango.point.entity.QPointEventEntity.pointEventEntity;
 
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -10,7 +10,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import site.ymango.point.entity.PointBonusExpirationEntity;
-import site.ymango.point.enums.TransactionType;
+import site.ymango.point.enums.EventType;
+import site.ymango.point.repository.PointBonusExpirationCustomRepository;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,11 +25,11 @@ public class PointBonusExpirationCustomRepositoryImpl implements PointBonusExpir
             pointBonusExpirationEntity.pointWalletId.eq(walletId),
             pointBonusExpirationEntity.expiredAt.before(now),
             pointBonusExpirationEntity.pointBonusExpirationId.notIn(
-                JPAExpressions.select(pointHistoryEntity.referenceId)
-                    .from(pointHistoryEntity)
+                JPAExpressions.select(pointEventEntity.bonusPointExpirationId)
+                    .from(pointEventEntity)
                     .where(
-                        pointHistoryEntity.pointWalletId.eq(walletId),
-                        pointHistoryEntity.transactionType.eq(TransactionType.EXPIRE_BONUS_POINT)
+                        pointEventEntity.pointWalletId.eq(walletId),
+                        pointEventEntity.eventType.eq(EventType.EXPIRATION)
                     )
             )
         )

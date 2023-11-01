@@ -1,14 +1,10 @@
-package site.ymango.point.repository;
+package site.ymango.point.repository.impl;
 
-
-import static site.ymango.point.entity.QPointHistoryEntity.pointHistoryEntity;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import site.ymango.point.entity.PointHistoryEntity;
-import site.ymango.point.enums.TransactionType;
+import site.ymango.point.repository.PointHistoryCustomRepository;
 
 @Repository
 @RequiredArgsConstructor

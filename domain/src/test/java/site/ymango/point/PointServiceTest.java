@@ -3,7 +3,6 @@ package site.ymango.point;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import site.ymango.DatabaseClearExtension;
 import site.ymango.exception.BaseException;
 import site.ymango.point.entity.PointWalletEntity;
+import site.ymango.point.enums.EventType;
 import site.ymango.point.repository.PointWalletRepository;
 
 @SpringBootTest
@@ -47,7 +47,7 @@ class PointServiceTest {
     pointService.createPointWallet(1L);
 
     // when
-    pointService.addPoint(1L, 100, null, null);
+    pointService.addPoint(1L, 100, EventType.PURCHASE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
@@ -59,7 +59,7 @@ class PointServiceTest {
   @Test
   @DisplayName("포인트 적립 - 포인트 지갑 없음")
   void test4() {
-    assertThrows(BaseException.class, () -> pointService.addPoint(1L, 100, null, null));
+    assertThrows(BaseException.class, () -> pointService.addPoint(1L, 100, EventType.PURCHASE));
   }
 
   @Test
@@ -67,10 +67,10 @@ class PointServiceTest {
   void test5() {
     // given
     pointService.createPointWallet(1L);
-    pointService.addPoint(1L, 100, null, null);
+    pointService.addPoint(1L, 100, EventType.USER_SIGN_UP);
 
     // when
-    pointService.usePoint(1L, 50, null, null);
+    pointService.usePoint(1L, 50, EventType.RECOMMEND_PROFILE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
@@ -84,11 +84,11 @@ class PointServiceTest {
   void test6() {
     // given
     pointService.createPointWallet(1L);
-    pointService.addPoint(1L, 100, null, null);
-    pointService.addBonusPoint(1L, 100, LocalDateTime.now().plusDays(1));
+    pointService.addPoint(1L, 100, EventType.PURCHASE);
+    pointService.addBonusPoint(1L, 100, LocalDateTime.now().plusDays(1), EventType.USER_SIGN_UP);
 
     // when
-    pointService.usePoint(1L, 50, null, null);
+    pointService.usePoint(1L, 50, EventType.RECOMMEND_PROFILE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
@@ -102,11 +102,11 @@ class PointServiceTest {
   void test7() {
     // given
     pointService.createPointWallet(1L);
-    pointService.addPoint(1L, 100, null, null);
-    pointService.addBonusPoint(1L, 100, LocalDateTime.now().minusDays(1));
+    pointService.addPoint(1L, 100, EventType.PURCHASE);
+    pointService.addBonusPoint(1L, 100, LocalDateTime.now().minusDays(1), EventType.USER_SIGN_UP);
 
     // when
-    pointService.usePoint(1L, 50, null, null);
+    pointService.usePoint(1L, 50, EventType.RECOMMEND_PROFILE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
