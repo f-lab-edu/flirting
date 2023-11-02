@@ -18,8 +18,8 @@ public class CompanyService {
   private final CompanyRepository companyRepository;
 
   @Transactional(readOnly = true)
-  public List<Company> getCompanies(String keyword, Pageable pageable) {
-    return companyRepository.findByName(keyword, pageable).stream()
+  public List<Company> getCompanies(Integer cursorId, String keyword, Pageable pageable) {
+    return companyRepository.findByName(cursorId, keyword, pageable).stream()
         .map(company -> Company.builder()
             .companyId(company.getCompanyId())
             .name(company.getName())

@@ -2,6 +2,7 @@ package site.ymango.company.repository;
 
 import static site.ymango.company.entity.QCompanyEntity.companyEntity;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
@@ -29,13 +30,18 @@ public class CompanyCustomRepositoryImpl implements CompanyCustomRepository {
         .fetchOne());
   }
 
-  public Page<CompanyEntity> findByName(String keyword, Pageable pageable) {
+  public Page<CompanyEntity> findByName(Integer cursorId, String keyword, Pageable pageable) {
     List<CompanyEntity> results = queryFactory.selectFrom(companyEntity)
-        .where(companyEntity.name.contains(keyword))
+        .where(cursorIdGt(cursorId).and(companyEntity.name.contains(keyword)))
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
+        .orderBy(companyEntity.name.asc())
         .fetch();
 
     return new PageImpl<>(results, pageable, results.size());
+  }
+
+  private BooleanExpression cursorIdGt(Integer cursorId) {
+    return cursorId == null ? null : companyEntity.companyId.gt(cursorId);
   }
 }

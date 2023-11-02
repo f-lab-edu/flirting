@@ -11,5 +11,5 @@ public interface CompanyCustomRepository {
 
   Optional<CompanyEntity> findByCompanyId(Integer companyId);
 
-  Page<CompanyEntity> findByName(String keyword, Pageable pageable);
+  Page<CompanyEntity> findByName(Integer cursorId, String keyword, Pageable pageable);
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import site.ymango.company.CompanyService;
 import site.ymango.company.dto.CompanyResponse;
@@ -18,12 +19,15 @@ public class CompanyController {
   private final CompanyService companyService;
 
   @GetMapping
-  public List<CompanyResponse> getCompanies(String keyword, @PageableDefault(
-      size = 20,
-      sort = "name",
-      direction = Sort.Direction.ASC
-  ) Pageable pageable) {
-    return companyService.getCompanies(keyword, pageable).stream()
+  public List<CompanyResponse> getCompanies(
+      @RequestParam(defaultValue = "") String keyword,
+      @RequestParam(defaultValue = "0") Integer cursor,
+      @PageableDefault(
+          size = 20,
+          sort = "name",
+          direction = Sort.Direction.ASC
+      ) Pageable pageable) {
+    return companyService.getCompanies(cursor, keyword, pageable).stream()
         .map(userCompany -> new CompanyResponse(
             userCompany.companyId(),
             userCompany.name(),
