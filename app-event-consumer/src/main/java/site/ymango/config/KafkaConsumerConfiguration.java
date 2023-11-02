@@ -22,7 +22,7 @@ public class KafkaConsumerConfiguration {
   public ConsumerFactory<String, Long> consumerFactory() {
     return new DefaultKafkaConsumerFactory<>(Map.of(
         ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
-        ConsumerConfig.GROUP_ID_CONFIG, "group_1",
+
         ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
         ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class
     ));
