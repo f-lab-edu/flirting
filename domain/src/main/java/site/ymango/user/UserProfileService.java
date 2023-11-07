@@ -63,7 +63,7 @@ public class UserProfileService {
         () -> {
           // TODO: 더이상 추천할 프로필이 없는 경우 푸시 알림
           log.info("추천 프로필이 없습니다. uid: {}", userId);
-          return new BaseException(ErrorCode.USER_PROFILE_NOT_FOUND);
+          return new BaseException(ErrorCode.USER_PROFILE_NOT_FOUND, "추천할 프로필이 업습니다.");
         });
 
     return objectMapper.convertValue(userProfileEntity, UserProfile.class);

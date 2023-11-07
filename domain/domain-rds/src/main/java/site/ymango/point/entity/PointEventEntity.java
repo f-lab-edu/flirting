@@ -35,6 +35,7 @@ public class PointEventEntity {
   private Long bonusPointExpirationId;
 
   @Column(name = "event_type")
+  @Enumerated(EnumType.STRING)
   private EventType eventType;
 
   @CreatedDate

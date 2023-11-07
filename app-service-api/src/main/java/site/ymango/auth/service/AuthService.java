@@ -3,6 +3,7 @@ package site.ymango.auth.service;
 
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -20,6 +21,7 @@ import site.ymango.user.UserService;
 import site.ymango.user.model.Location;
 import site.ymango.user.model.User;
 import site.ymango.user.model.Company;
+import site.ymango.user.model.UserCreateEvent;
 import site.ymango.user.model.UserProfile;
 import site.ymango.util.GenerateUtil;
 
@@ -33,6 +35,7 @@ public class AuthService {
   private final PasswordEncoder passwordEncoder;
   private final AuthenticationManager authenticationManager;
   private final NotificationServiceFactory notificationServiceFactory;
+  private final ApplicationEventPublisher eventPublisher;
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     try {
@@ -67,6 +70,8 @@ public class AuthService {
                 .build())
             .build())
         .build(), deviceId);
+
+    eventPublisher.publishEvent(new UserCreateEvent(createdUser.userId()));
 
     String token = jwtService.generateToken(createdUser);
 

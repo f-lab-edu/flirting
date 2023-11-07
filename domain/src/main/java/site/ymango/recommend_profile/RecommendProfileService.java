@@ -65,15 +65,15 @@ public class RecommendProfileService {
   }
 
   @Transactional
-  public void deleteRecommendProfile(Long recommendProfileId) {
-    RecommendProfileEntity recommendProfile = recommendProfileRepository.findById(recommendProfileId)
+  public void deleteRecommendProfile(Long userId, Long recommendProfileId) {
+    RecommendProfileEntity recommendProfile = recommendProfileRepository.findByRecommendProfileIdAndUserId(recommendProfileId, userId)
         .orElseThrow(() -> new BaseException(ErrorCode.RECOMMEND_PROFILE_NOT_FOUND));
     recommendProfileRepository.delete(recommendProfile);
   }
 
   @Transactional
-  public void rateRecommendProfile(Long recommendProfileId, Integer rating) {
-    RecommendProfileEntity recommendProfile = recommendProfileRepository.findById(recommendProfileId)
+  public void rateRecommendProfile(Long userId, Long recommendProfileId, Integer rating) {
+    RecommendProfileEntity recommendProfile = recommendProfileRepository.findByRecommendProfileIdAndUserId(recommendProfileId, userId)
         .orElseThrow(() -> new BaseException(ErrorCode.RECOMMEND_PROFILE_NOT_FOUND));
     recommendProfile.rate(rating);
     recommendProfileRepository.save(recommendProfile);

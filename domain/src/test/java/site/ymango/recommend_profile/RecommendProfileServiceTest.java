@@ -12,6 +12,7 @@ import site.ymango.DatabaseClearExtension;
 import site.ymango.company.CompanyService;
 import site.ymango.email_verification.EmailVerificationService;
 import site.ymango.point.PointService;
+import site.ymango.point.enums.EventType;
 import site.ymango.recommend_profile.model.RecommendProfile;
 import site.ymango.recommend_profile.repository.RecommendProfileRepository;
 import site.ymango.user.UserService;
@@ -132,8 +133,10 @@ class RecommendProfileServiceTest {
     emailVerificationService.createEmailVerification(targetUserEmail, deviceId, verificationNumber);
     emailVerificationService.verifyEmail(email, deviceId, verificationNumber);
     emailVerificationService.verifyEmail(targetUserEmail, deviceId, verificationNumber);
-    userService.create(user, deviceId);
+    User user1 = userService.create(user, deviceId);
     userService.create(targetUser, deviceId);
+    pointService.createPointWallet(user1.userId());
+    pointService.addPoint(user1.userId(), 1000, EventType.PURCHASE);
     User createdUser = userService.getUser(email);
 
     // when
@@ -238,7 +241,7 @@ class RecommendProfileServiceTest {
     // when
     var recommendProfiles = recommendProfileService.getRecommendProfiles(createdUser.userId());
     RecommendProfile recommendProfile = recommendProfiles.get(0);
-    recommendProfileService.deleteRecommendProfile(recommendProfile.recommendProfileId());
+    recommendProfileService.deleteRecommendProfile(createdUser.userId(), recommendProfile.recommendProfileId());
 
     // then
     assertEquals(0, recommendProfileRepository.count());
@@ -290,7 +293,7 @@ class RecommendProfileServiceTest {
     // when
     var recommendProfiles = recommendProfileService.getRecommendProfiles(createdUser.userId());
     RecommendProfile recommendProfile = recommendProfiles.get(0);
-    recommendProfileService.rateRecommendProfile(recommendProfile.recommendProfileId(), 5);
+    recommendProfileService.rateRecommendProfile(createdUser.userId(), recommendProfile.recommendProfileId(), 5);
 
     // then
     assertEquals(5, recommendProfileRepository.findById(recommendProfile.recommendProfileId()).get().getRating());
