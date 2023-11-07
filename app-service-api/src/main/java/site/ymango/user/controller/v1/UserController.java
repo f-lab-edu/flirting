@@ -1,4 +1,4 @@
-package site.ymango.user;
+package site.ymango.user.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
