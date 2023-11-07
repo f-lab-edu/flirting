@@ -70,7 +70,7 @@ class PointServiceTest {
     pointService.addPoint(1L, 100, EventType.USER_SIGN_UP);
 
     // when
-    pointService.usePoint(1L, 50, EventType.RECOMMEND_PROFILE);
+    pointService.usePoint(1L, EventType.RECOMMEND_PROFILE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
@@ -88,7 +88,7 @@ class PointServiceTest {
     pointService.addBonusPoint(1L, 100, LocalDateTime.now().plusDays(1), EventType.USER_SIGN_UP);
 
     // when
-    pointService.usePoint(1L, 50, EventType.RECOMMEND_PROFILE);
+    pointService.usePoint(1L, EventType.RECOMMEND_PROFILE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
@@ -106,7 +106,7 @@ class PointServiceTest {
     pointService.addBonusPoint(1L, 100, LocalDateTime.now().minusDays(1), EventType.USER_SIGN_UP);
 
     // when
-    pointService.usePoint(1L, 50, EventType.RECOMMEND_PROFILE);
+    pointService.usePoint(1L, EventType.RECOMMEND_PROFILE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(

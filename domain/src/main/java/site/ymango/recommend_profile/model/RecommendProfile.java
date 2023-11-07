@@ -1,4 +1,4 @@
-package site.ymango.recommend.model;
+package site.ymango.recommend_profile.model;
 
 import java.time.LocalDateTime;
 import lombok.Builder;

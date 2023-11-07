@@ -24,7 +24,7 @@ create table service.user_profile
         primary key,
     username        varchar(255)                        not null,
     birthdate       date                                not null,
-    gender          varchar(5)                          not null,
+    gender          varchar(6)                          not null comment 'MALE, FEMALE',
     sido            varchar(255)                        not null,
     sigungu         varchar(255)                        not null,
     mbti            char(4)                             not null comment 'ISTJ,ISFJ,INFJ,INTJ,ISTP,ISFP,INFP,INTP,ESTP,ESFP,ENFP,ENTP,ESTJ,ESFJ,ENFJ,ENTJ',

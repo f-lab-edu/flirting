@@ -1,4 +1,4 @@
-package site.ymango.recommend.entity;
+package site.ymango.recommend_profile.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -10,7 +10,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import site.ymango.recommend.enums.RecommendType;
 
 @Getter
 @Entity
@@ -34,13 +33,6 @@ public class RecommendProfileEntity {
 
   @Column(name = "user_profile_id")
   private Long userProfileId;
-
-  @Column(name = "recommend_type")
-  @Enumerated(EnumType.STRING)
-  private RecommendType recommendType;
-
-  @Column(name = "point_event_id")
-  private Long pointEventId;
 
   @Column(name = "rating")
   private Integer rating;

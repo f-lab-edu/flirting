@@ -1,4 +1,4 @@
-package site.ymango.recommend;
+package site.ymango.recommend_profile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,17 +9,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.ymango.exception.BaseException;
 import site.ymango.exception.ErrorCode;
-import site.ymango.recommend.entity.RecommendProfileEntity;
-import site.ymango.recommend.enums.RecommendType;
-import site.ymango.recommend.model.RecommendProfile;
-import site.ymango.recommend.repository.RecommendProfileRepository;
-import site.ymango.user.UserService;
+import site.ymango.point.PointService;
+import site.ymango.point.enums.EventType;
+import site.ymango.recommend_profile.entity.RecommendProfileEntity;
+import site.ymango.recommend_profile.model.RecommendProfile;
+import site.ymango.recommend_profile.repository.RecommendProfileRepository;
+import site.ymango.user.UserProfileService;
+import site.ymango.user.model.UserProfile;
 
 @Service
 @RequiredArgsConstructor
-public class RecommendService {
+public class RecommendProfileService {
   private final RecommendProfileRepository recommendProfileRepository;
-  private final UserService userService;
+  private final UserProfileService userProfileService;
+  private final PointService pointService;
 
   @Transactional(readOnly = true)
   public List<RecommendProfile> getRecommendProfiles(Long userId) {
@@ -31,16 +34,31 @@ public class RecommendService {
             .userId(p.getUserId())
             .createdAt(p.getCreatedAt())
             .expiredAt(p.getExpiredAt())
-            .userProfile(userService.getUserProfile(p.getUserProfileId()))
+            .userProfile(userProfileService.getUserProfile(p.getUserProfileId()))
             .build()).collect(Collectors.toList());
   }
 
+  /**
+   * 포인트 사용 프로필 추천
+   * @param userId
+   */
   @Transactional
-  public void createRecommendProfile(Long userId, Long userProfileId, RecommendType recommendType) {
+  public void createRecommendProfileByPoint(Long userId) {
+    pointService.usePoint(userId, EventType.RECOMMEND_PROFILE);
+    createRecommendProfile(userId);
+  }
+
+  /**
+   * 무료 프로필 추천
+   * @param userId
+   */
+  @Transactional
+  public void createRecommendProfile(Long userId) {
+    UserProfile recommendUserProfile = userProfileService.getRecommendUserProfile(userId);
+
     RecommendProfileEntity recommendProfile = RecommendProfileEntity.builder()
         .userId(userId)
-        .userProfileId(userProfileId)
-        .recommendType(recommendType)
+        .userProfileId(recommendUserProfile.userProfileId())
         .expiredAt(LocalDateTime.now().plusDays(7))
         .build();
     recommendProfileRepository.save(recommendProfile);

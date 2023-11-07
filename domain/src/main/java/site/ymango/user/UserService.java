@@ -60,27 +60,6 @@ public class UserService {
       .build();
   }
 
-  @Transactional(readOnly = true)
-  public UserProfile getUserProfile(Long userProfileId) {
-    UserProfileEntity userProfileEntity = userProfileRepository.findById(userProfileId).orElseThrow(
-        () -> new BaseException(ErrorCode.USER_PROFILE_NOT_FOUND));
-    return UserProfile.builder()
-        .userProfileId(userProfileEntity.getUserProfileId())
-        .username(userProfileEntity.getUsername())
-        .gender(userProfileEntity.getGender())
-        .birthdate(userProfileEntity.getBirthdate())
-        .sido(userProfileEntity.getSido())
-        .sigungu(userProfileEntity.getSigungu())
-        .mbti(userProfileEntity.getMbti())
-        .preferMbti(userProfileEntity.getPreferMbti())
-        .location(userProfileEntity.getLocation())
-        .createdAt(userProfileEntity.getCreatedAt())
-        .updatedAt(userProfileEntity.getUpdatedAt())
-        .deletedAt(userProfileEntity.getDeletedAt())
-        .userCompany(companyService.getCompany(userProfileEntity.getCompanyId()))
-        .build();
-  }
-
   @Transactional
   public User create(User user, String deviceId) {
     if (!emailVerificationService.isVerified(user.email(), deviceId, true)) {

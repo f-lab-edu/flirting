@@ -1,4 +1,4 @@
-package site.ymango.recommend.repository;
+package site.ymango.recommend_profile.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

@@ -10,7 +10,7 @@ public class LocationConverter implements AttributeConverter<Location, Point> {
   @Override
   public Point convertToDatabaseColumn(Location attribute) {
     GeometryFactory geometryFactory = new GeometryFactory();
-    return geometryFactory.createPoint(new Coordinate(attribute.x(), attribute.y()));
+    return geometryFactory.createPoint(new Coordinate(attribute.longitude(), attribute.latitude()));
   }
 
   @Override
