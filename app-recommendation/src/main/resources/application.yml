@@ -1,7 +1,0 @@
-server:
-  port: 8882
-
-spring:
-  profiles:
-    include:
-      - domain
