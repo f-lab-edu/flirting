@@ -1,5 +1,6 @@
 package site.ymango.advice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -13,10 +14,12 @@ import site.ymango.dto.BaseResponse;
 import site.ymango.exception.BaseException;
 import site.ymango.exception.ErrorCode;
 
+@Slf4j
 @RestControllerAdvice
 public class BaseExceptionAdvice extends ResponseEntityExceptionHandler {
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Object> handleException(Exception e) {
+    log.error("handleException", e);
     return handleException(e, e.getLocalizedMessage(), ErrorCode.UNKNOWN_ERROR, null);
   }
 
