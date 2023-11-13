@@ -75,7 +75,7 @@ class PointServiceTest {
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
-    assertEquals(50, pointWallet.getPoint());
+    assertEquals(90, pointWallet.getPoint());
     assertEquals(0, pointWallet.getBonusPoint());
   }
 
@@ -94,7 +94,7 @@ class PointServiceTest {
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
     assertEquals(100, pointWallet.getPoint());
-    assertEquals(50, pointWallet.getBonusPoint());
+    assertEquals(90, pointWallet.getBonusPoint());
   }
 
   @Test
@@ -111,7 +111,7 @@ class PointServiceTest {
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
-    assertEquals(50, pointWallet.getPoint());
+    assertEquals(90, pointWallet.getPoint());
     assertEquals(0, pointWallet.getBonusPoint());
   }
 }
