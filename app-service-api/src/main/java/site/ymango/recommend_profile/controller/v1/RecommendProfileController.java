@@ -3,6 +3,7 @@ package site.ymango.recommend_profile.controller.v1;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.web.bind.annotation.*;
 import site.ymango.advice.AuthorizationAttribute;
 import site.ymango.recommend_profile.RecommendProfileService;
@@ -43,7 +44,7 @@ public class RecommendProfileController {
   }
 
   @PutMapping("/{recommendProfileId}/rating")
-  public void updateRating(@PathVariable Long recommendProfileId, @RequestParam Integer rating) {
+  public void updateRating(@PathVariable Long recommendProfileId, @RequestParam @Range(min = 1, max = 5) Integer rating) {
     recommendProfileService.rateRecommendProfile(AuthorizationAttribute.getUserId(), recommendProfileId, rating);
   }
 
