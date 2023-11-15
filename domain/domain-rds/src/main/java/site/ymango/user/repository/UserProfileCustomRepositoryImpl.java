@@ -27,12 +27,20 @@ public class UserProfileCustomRepositoryImpl implements UserProfileCustomReposit
   public Optional<UserProfileEntity> findRecommendProfile(Long userId, Location location, Gender gender, List<Mbti> preferredMbti, LocalDate birthdate) {
     return Optional.ofNullable(queryFactory.selectFrom(userProfileEntity)
         .where(
-            distanceLessThanOne10Km(location),
+            inDistanceLessThanOne10Km(location),
             notInRecommendProfileBetweenYears(userId, LocalDateTime.now().minusMonths(6)),
             userProfileEntity.gender.eq(gender == Gender.MALE ? Gender.FEMALE : Gender.MALE),
             userProfileEntity.mbti.in(preferredMbti),
             userProfileEntity.birthdate.between(birthdate.minusYears(10), birthdate.plusYears(10))
         ).fetchOne());
+  }
+
+  private BooleanExpression inDistanceLessThanOne10Km(Location location) {
+    return userProfileEntity.userProfileId.in(
+        JPAExpressions
+            .select(userProfileEntity.userProfileId)
+            .from(userProfileEntity)
+            .where(distanceLessThanOne10Km(location)));
   }
 
   private BooleanExpression distanceLessThanOne10Km(Location location) {
