@@ -33,8 +33,8 @@ public class ControllerAdvice {
     String accessToken = authorization.replaceAll("Bearer", "").trim();
     String deviceId = request.getHeader("X-FLIRTING-DEVICE-ID");
 
-    String email = jwtService.extractEmail(accessToken);
-    User user = userService.getUser(email);
+    String userId = jwtService.extractUserId(accessToken);
+    User user = userService.getUser(Long.valueOf(userId));
 
     AuthorizationAttribute.setAttribute("userId", user.userId());
     AuthorizationAttribute.setAttribute("deviceId", deviceId);

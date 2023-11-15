@@ -19,7 +19,7 @@ public class JwtService {
   @Value("${application.security.jwt.expiration}")
   private long jwtExpiration;
 
-  public String extractEmail(String token) {
+  public String extractUserId(String token) {
     return extractClaim(token, Claims::getSubject);
   }
 
@@ -45,7 +45,7 @@ public class JwtService {
       long expiration
   ) {
     UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
-        .username(user.email())
+        .username(user.userId().toString())
         .password(user.password())
         .build();
 
@@ -60,8 +60,8 @@ public class JwtService {
   }
 
   public boolean isTokenValid(String token, UserDetails userDetails) {
-    final String email = extractEmail(token);
-    return (email.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    final String userId = extractUserId(token);
+    return (userId.equals(userDetails.getUsername())) && !isTokenExpired(token);
   }
 
   private boolean isTokenExpired(String token) {

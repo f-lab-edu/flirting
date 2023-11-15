@@ -38,13 +38,12 @@ public class AuthService {
   private final ApplicationEventPublisher eventPublisher;
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    User user = userService.getUser(request.email());
     try {
-      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.userId(), request.password()));
     } catch (AuthenticationException e) {
       throw new BaseException(ErrorCode.AUTHENTICATION_FAILED, e.getLocalizedMessage());
     }
-
-    User user = userService.getUser(request.email());
     String token = jwtService.generateToken(user);
 
     return new AuthenticationResponse(token);
