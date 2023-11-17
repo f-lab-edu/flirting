@@ -70,12 +70,12 @@ class PointServiceTest {
     pointService.addPoint(1L, 100, EventType.USER_SIGN_UP);
 
     // when
-    pointService.usePoint(1L, 50, EventType.RECOMMEND_PROFILE);
+    pointService.usePoint(1L, EventType.RECOMMEND_PROFILE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
-    assertEquals(50, pointWallet.getPoint());
+    assertEquals(90, pointWallet.getPoint());
     assertEquals(0, pointWallet.getBonusPoint());
   }
 
@@ -88,13 +88,13 @@ class PointServiceTest {
     pointService.addBonusPoint(1L, 100, LocalDateTime.now().plusDays(1), EventType.USER_SIGN_UP);
 
     // when
-    pointService.usePoint(1L, 50, EventType.RECOMMEND_PROFILE);
+    pointService.usePoint(1L, EventType.RECOMMEND_PROFILE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
     assertEquals(100, pointWallet.getPoint());
-    assertEquals(50, pointWallet.getBonusPoint());
+    assertEquals(90, pointWallet.getBonusPoint());
   }
 
   @Test
@@ -106,12 +106,12 @@ class PointServiceTest {
     pointService.addBonusPoint(1L, 100, LocalDateTime.now().minusDays(1), EventType.USER_SIGN_UP);
 
     // when
-    pointService.usePoint(1L, 50, EventType.RECOMMEND_PROFILE);
+    pointService.usePoint(1L, EventType.RECOMMEND_PROFILE);
 
     // then
     PointWalletEntity pointWallet = pointWalletRepository.findByUserId(1L).orElseThrow(
         () -> new RuntimeException("포인트 지갑이 생성되지 않았습니다."));
-    assertEquals(50, pointWallet.getPoint());
+    assertEquals(90, pointWallet.getPoint());
     assertEquals(0, pointWallet.getBonusPoint());
   }
 }

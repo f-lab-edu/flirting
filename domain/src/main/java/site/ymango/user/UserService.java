@@ -30,6 +30,36 @@ public class UserService {
   private final ApplicationEventPublisher applicationEventPublisher;
 
   @Transactional(readOnly = true)
+  public User getUser(Long userId) {
+    UserEntity userEntity = userRepository.findById(userId).orElseThrow(
+        () -> new BaseException(ErrorCode.USER_NOT_FOUND));
+    return User.builder()
+        .userId(userEntity.getUserId())
+        .password(userEntity.getPassword())
+        .email(userEntity.getEmail())
+        .status(userEntity.getStatus())
+        .createdAt(userEntity.getCreatedAt())
+        .updatedAt(userEntity.getUpdatedAt())
+        .closedAt(userEntity.getClosedAt())
+        .userProfile(UserProfile.builder()
+            .userProfileId(userEntity.getUserProfile().getUserProfileId())
+            .username(userEntity.getUserProfile().getUsername())
+            .gender(userEntity.getUserProfile().getGender())
+            .birthdate(userEntity.getUserProfile().getBirthdate())
+            .sido(userEntity.getUserProfile().getSido())
+            .sigungu(userEntity.getUserProfile().getSigungu())
+            .mbti(userEntity.getUserProfile().getMbti())
+            .preferMbti(userEntity.getUserProfile().getPreferMbti())
+            .location(userEntity.getUserProfile().getLocation())
+            .createdAt(userEntity.getUserProfile().getCreatedAt())
+            .updatedAt(userEntity.getUserProfile().getUpdatedAt())
+            .deletedAt(userEntity.getUserProfile().getDeletedAt())
+            .userCompany(companyService.getCompany(userEntity.getUserProfile().getCompanyId()))
+            .build())
+        .build();
+  }
+
+  @Transactional(readOnly = true)
   public User getUser(String email) {
     UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(
         () -> new BaseException(ErrorCode.USER_NOT_FOUND));

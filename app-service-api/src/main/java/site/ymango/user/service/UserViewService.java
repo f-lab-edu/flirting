@@ -14,7 +14,7 @@ public class UserViewService {
   private final JwtService jwtService;
 
   public UserResponse getUser(String token) {
-    String email = jwtService.extractEmail(token.substring(7));
+    String email = jwtService.extractUserId(token.substring(7));
     User user = userService.getUser(email);
 
     return new UserResponse(

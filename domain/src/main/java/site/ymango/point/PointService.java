@@ -92,9 +92,9 @@ public class PointService {
   }
 
   @Transactional
-  public void usePoint(Long userId, Integer point, EventType eventType) {
+  public void usePoint(Long userId, EventType eventType) {
     PointWalletEntity pointWallet = settleBonusPoint(
-        pointRepository.findByUserId(userId).orElseThrow(() -> new BaseException(ErrorCode.POINT_WALLET_NOT_FOUND))).usePoint(point);
+        pointRepository.findByUserId(userId).orElseThrow(() -> new BaseException(ErrorCode.POINT_WALLET_NOT_FOUND))).usePoint(eventType.getPoint());
 
     pointRepository.save(pointWallet);
 
@@ -107,7 +107,8 @@ public class PointService {
     pointHistoryRepository.save(PointHistoryEntity.builder()
         .userId(userId)
         .pointWalletId(pointWallet.getPointWalletId())
-        .amount(point)
+        .amount(eventType.getPoint())
+        .summary(eventType.getSummary())
         .currentPoint(pointWallet.getPoint())
         .currentBonusPoint(pointWallet.getBonusPoint())
         .transactionType(TransactionType.USE_POINT)

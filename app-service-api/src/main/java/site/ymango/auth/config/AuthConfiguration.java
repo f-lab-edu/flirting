@@ -25,10 +25,10 @@ public class AuthConfiguration {
 
   @Bean
   public UserDetailsService userDetailsService() {
-    return email -> {
-      User user = userService.getUser(email);
+    return userId -> {
+      User user = userService.getUser(Long.valueOf(userId));
       return org.springframework.security.core.userdetails.User.builder()
-          .username(user.email())
+          .username(user.userId().toString())
           .password(user.password())
           .build();
     };
