@@ -75,7 +75,7 @@ public class UserProfileEntity {
   private LocalDateTime deletedAt;
 
   @OneToOne(mappedBy = "userProfile")
-  private UserEntity userEntity;
+  private UserEntity user;
 
   @Column(name = "company_id")
   private Integer companyId;

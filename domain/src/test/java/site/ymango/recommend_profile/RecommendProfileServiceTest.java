@@ -68,10 +68,10 @@ class RecommendProfileServiceTest {
         null, "구글", "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     User user = new User(
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
@@ -117,10 +117,10 @@ class RecommendProfileServiceTest {
         null, "구글", "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     User user = new User(
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
@@ -169,10 +169,10 @@ class RecommendProfileServiceTest {
         null, "구글", "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null,username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     User user = new User(
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
@@ -217,10 +217,10 @@ class RecommendProfileServiceTest {
         null, "구글", "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     User user = new User(
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
@@ -269,10 +269,10 @@ class RecommendProfileServiceTest {
         null, "구글", "gmail.com", null, null, null, null
     );
     UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
+        null, null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
     );
     User user = new User(
         null, email, password, UserStatus.ACTIVE, null, null, null, userProfile

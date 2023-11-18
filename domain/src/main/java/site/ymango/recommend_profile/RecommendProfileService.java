@@ -38,6 +38,20 @@ public class RecommendProfileService {
             .build()).collect(Collectors.toList());
   }
 
+  @Transactional(readOnly = true)
+  public RecommendProfile getRecommendProfile(Long userId, Long recommendProfileId) {
+    RecommendProfileEntity recommendProfile = recommendProfileRepository.findByRecommendProfileIdAndUserId(recommendProfileId, userId)
+        .orElseThrow(() -> new BaseException(ErrorCode.RECOMMEND_PROFILE_NOT_FOUND));
+
+    return RecommendProfile.builder()
+        .recommendProfileId(recommendProfile.getRecommendProfileId())
+        .userId(recommendProfile.getUserId())
+        .createdAt(recommendProfile.getCreatedAt())
+        .expiredAt(recommendProfile.getExpiredAt())
+        .userProfile(userProfileService.getUserProfile(recommendProfile.getUserProfileId()))
+        .build();
+  }
+
   /**
    * 포인트 사용 프로필 추천
    * @param userId

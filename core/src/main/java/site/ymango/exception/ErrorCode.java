@@ -39,6 +39,9 @@ public enum ErrorCode {
   // recommend
   RECOMMEND_PROFILE_NOT_FOUND(HttpStatus.NOT_FOUND, 6000, "추천 프로필을 찾을 수 없습니다."),
 
+  // match
+  MATCH_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, 7000, "매칭 요청을 찾을 수 없습니다."),
+
 
   UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR ,9999, "알 수 없는 에러가 발생했습니다.");
   private final HttpStatus status;
