@@ -15,7 +15,7 @@ import site.ymango.DatabaseClearExtension;
 import site.ymango.company.CompanyService;
 import site.ymango.email_verification.EmailVerificationService;
 import site.ymango.match.entity.MatchRequestEntity;
-import site.ymango.match.model.RequestMatch;
+import site.ymango.match.model.MatchRequest;
 import site.ymango.match.repository.MatchRequestRepository;
 import site.ymango.recommend_profile.entity.RecommendProfileEntity;
 import site.ymango.recommend_profile.repository.RecommendProfileRepository;
@@ -106,7 +106,7 @@ class MatchServiceTest {
     matchRequestRepository.saveAll(matchRequestEntities);
 
     // when
-    List<RequestMatch> matchedUsers = matchService.getMatchedUsers(1L);
+    List<MatchRequest> matchedUsers = matchService.getMatchedUsers(1L);
 
     // then
     assertEquals(1, matchedUsers.size());
@@ -212,9 +212,34 @@ class MatchServiceTest {
     assertEquals(1, matchRequestEntities.size());
 
     // when
-    List<RequestMatch> requestMatches = matchService.getRequestMatches(userId);
+    List<MatchRequest> matchRequests = matchService.getRequestMatches(userId);
 
     // then
-    assertEquals(1, requestMatches.size());
+    assertEquals(1, matchRequests.size());
+  }
+
+  @Test
+  @DisplayName("get received matches")
+  void getReceivedMatches() {
+    // given
+    long userId = 1L;
+    long userProfileId = 2L;
+    RecommendProfileEntity recommendProfile = RecommendProfileEntity.builder()
+        .userProfileId(userProfileId)
+        .userId(userId)
+        .expiredAt(LocalDateTime.now().plusDays(7))
+        .build();
+
+    recommendProfileRepository.save(recommendProfile);
+
+    matchService.createMatchRequest(userId, recommendProfile.getRecommendProfileId());
+    List<MatchRequestEntity> matchRequestEntities = matchRequestRepository.findAll();
+    assertEquals(1, matchRequestEntities.size());
+
+    // when
+    List<MatchRequest> receivedMatches = matchService.getReceivedMatches(userId);
+
+    // then
+    assertEquals(1, receivedMatches.size());
   }
 }

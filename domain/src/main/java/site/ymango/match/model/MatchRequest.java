@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 
 @Builder
-public record RequestMatch(
+public record MatchRequest(
     Long matchRequestId,
     Long userId,
     Long targetUserId,

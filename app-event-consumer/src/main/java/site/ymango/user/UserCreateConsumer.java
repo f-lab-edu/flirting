@@ -10,7 +10,7 @@ import site.ymango.point.PointService;
 public class UserCreateConsumer {
   private final PointService pointService;
 
-  @KafkaListener(topics = "user_create", groupId = "user_create_group")
+  @KafkaListener(topics = "user_create", groupId = "user_create_group", containerFactory = "longKafkaListenerContainerFactory")
   public void userCreateListener(Long userId) {
     pointService.createPointWallet(userId);
   }

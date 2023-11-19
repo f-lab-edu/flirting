@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.ymango.exception.BaseException;
 import site.ymango.exception.ErrorCode;
 import site.ymango.match.entity.MatchRequestEntity;
-import site.ymango.match.model.RequestMatch;
+import site.ymango.match.model.MatchRequest;
 import site.ymango.match.repository.MatchRequestRepository;
 import site.ymango.recommend_profile.RecommendProfileService;
 import site.ymango.recommend_profile.model.RecommendProfile;
@@ -48,10 +48,10 @@ public class MatchService {
   }
 
   @Transactional(readOnly = true)
-  public List<RequestMatch> getRequestMatches(long userId) {
+  public List<MatchRequest> getRequestMatches(long userId) {
     return matchRequestRepository.findByUserIdAndAccepted(userId, Boolean.FALSE)
         .stream()
-        .map(r -> RequestMatch.builder()
+        .map(r -> MatchRequest.builder()
             .matchRequestId(r.getMatchRequestId())
             .targetUserId(r.getTargetUserId())
             .accepted(r.getAccepted())
@@ -61,10 +61,10 @@ public class MatchService {
   }
 
   @Transactional(readOnly = true)
-  public List<RequestMatch> getReceivedMatches(long userId) {
+  public List<MatchRequest> getReceivedMatches(long userId) {
     return matchRequestRepository.findByTargetUserIdAndAccepted(userId, Boolean.FALSE)
         .stream()
-        .map(r -> RequestMatch.builder()
+        .map(r -> MatchRequest.builder()
             .matchRequestId(r.getMatchRequestId())
             .targetUserId(r.getTargetUserId())
             .accepted(r.getAccepted())
@@ -74,10 +74,10 @@ public class MatchService {
   }
 
   @Transactional(readOnly = true)
-  public List<RequestMatch> getMatchedUsers(long userId) {
+  public List<MatchRequest> getMatchedUsers(long userId) {
     return matchRequestRepository.findByUserIdAndAccepted(userId, Boolean.TRUE)
         .stream()
-        .map(r -> RequestMatch.builder()
+        .map(r -> MatchRequest.builder()
             .matchRequestId(r.getMatchRequestId())
             .targetUserId(r.getTargetUserId())
             .accepted(r.getAccepted())

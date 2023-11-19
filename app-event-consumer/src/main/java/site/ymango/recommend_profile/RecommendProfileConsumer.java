@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class RecommendProfileConsumer {
   private final RecommendProfileService profileRecommendService;
 
-  @KafkaListener(topics = "profile_recommend", groupId = "profile_recommend_group")
+  @KafkaListener(topics = "profile_recommend", groupId = "profile_recommend_group", containerFactory = "longKafkaListenerContainerFactory")
   public void listener(Long userId) {
     profileRecommendService.createRecommendProfile(userId);
   }
