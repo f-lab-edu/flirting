@@ -11,45 +11,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
-import site.ymango.match.model.MatchAcceptEvent;
-import site.ymango.match.model.MatchRequestEvent;
 
 @Configuration
 @RequiredArgsConstructor
 public class KafkaConsumerConfiguration {
   @Value("${spring.kafka.bootstrap-servers}")
   private String bootstrapServers;
-
-  @Bean
-  public ConsumerFactory<String, MatchAcceptEvent> matchAcceptEventConsumerFactory() {
-    return new DefaultKafkaConsumerFactory<>(Map.of(
-        ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
-        JsonDeserializer.TRUSTED_PACKAGES, "*"
-    ), new StringDeserializer(), new JsonDeserializer<>(MatchAcceptEvent.class));
-  }
-
-  @Bean
-  public ConcurrentKafkaListenerContainerFactory<String, MatchAcceptEvent> matchAcceptEventConcurrentKafkaListenerContainerFactory() {
-    ConcurrentKafkaListenerContainerFactory<String, MatchAcceptEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
-    factory.setConsumerFactory(matchAcceptEventConsumerFactory());
-    return factory;
-  }
-
-  @Bean
-  public ConsumerFactory<String, MatchRequestEvent> matchRequestEventConsumerFactory() {
-    return new DefaultKafkaConsumerFactory<>(Map.of(
-        ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
-        JsonDeserializer.TRUSTED_PACKAGES, "*"
-    ), new StringDeserializer(), new JsonDeserializer<>(MatchRequestEvent.class));
-  }
-
-  @Bean
-  public ConcurrentKafkaListenerContainerFactory<String, MatchRequestEvent> matchRequestEventConcurrentKafkaListenerContainerFactory() {
-    ConcurrentKafkaListenerContainerFactory<String, MatchRequestEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
-    factory.setConsumerFactory(matchRequestEventConsumerFactory());
-    return factory;
-  }
 
   @Bean
   public ConsumerFactory<String, Long> longConsumerFactory() {

@@ -15,15 +15,12 @@ import site.ymango.advice.AuthorizationAttribute;
 import site.ymango.match.MatchService;
 import site.ymango.match.dto.MatchReceivedResponse;
 import site.ymango.match.dto.MatchRequestResponse;
-import site.ymango.match.model.MatchAcceptEvent;
-import site.ymango.match.model.MatchRequestEvent;
 
 @RestController
 @RequestMapping("/v1/matches")
 @RequiredArgsConstructor
 public class MatchController {
   private final MatchService matchService;
-  private final ApplicationEventPublisher eventPublisher;
 
   @GetMapping("/requests")
   public List<MatchRequestResponse> getRequestMatches() {
@@ -40,19 +37,12 @@ public class MatchController {
 
   @PostMapping("/requests")
   public void createMatchRequest(@RequestParam Long targetUserId) {
-    eventPublisher.publishEvent(MatchRequestEvent.builder()
-        .userId(AuthorizationAttribute.getUserId())
-        .targetUserId(targetUserId)
-        );
+    matchService.createMatchRequest(AuthorizationAttribute.getUserId(), targetUserId);
   }
 
   @PostMapping("/requests/{matchRequestId}/accept")
   public void acceptMatchRequest(@PathVariable Long matchRequestId, @RequestParam Long requestUserId) {
-    eventPublisher.publishEvent(MatchAcceptEvent.builder()
-        .userId(AuthorizationAttribute.getUserId())
-        .matchRequestId(matchRequestId)
-        .requestUserId(requestUserId)
-        .build());
+    matchService.acceptMatchRequest(AuthorizationAttribute.getUserId(), matchRequestId, requestUserId);
   }
 
   @DeleteMapping("/requests/{matchRequestId}")
