@@ -1,6 +1,22 @@
-# 플러팅: 직장인 MBTI 소개팅 앱
+![Flirting](https://capsule-render.vercel.app/api?type=wave&color=0:8971D0,100:7DACE4&height=300&section=header&text=Flirting&fontSize=90&fontColor=FFFF)
+
+## 플러팅: 직장인 MBTI 소개팅 앱
 
 > **플러팅**은 회사 이메일을 통해 인증하고 MBTI와 위치 기반으로 매칭되는 소개팅 앱입니다.
+
+## 기술 스택
+![java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![spring](https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![spring security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white)
+![spring batch](https://img.shields.io/badge/SpringBatch-6DB33F?style=for-the-badge&logo=mysql&logoColor=white)
+![kafka](https://img.shields.io/badge/kafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white)
+![jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white)
+![mysql](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![QueryDSL](https://img.shields.io/badge/QueryDSL-00000F?style=for-the-badge&logo=jpa&logoColor=white)
+![jpa](https://img.shields.io/badge/JPA-00000F?style=for-the-badge&logo=jpa&logoColor=white)
+![navercloud](https://img.shields.io/badge/NaverCloudPlatform-03C75A?style=for-the-badge&logo=naver&logoColor=white)
+
+
 
 ## 서버 아키텍처
 ![서버 아키텍처](./img.png)
