@@ -10,6 +10,7 @@ import site.ymango.user.enums.PerferMbti;
 @Builder
 public record UserProfile(
     Long userProfileId,
+    Long userId,
     String username,
     Gender gender,
     LocalDate birthdate,

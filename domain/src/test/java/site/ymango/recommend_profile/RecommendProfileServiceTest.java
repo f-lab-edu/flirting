@@ -64,21 +64,47 @@ class RecommendProfileServiceTest {
     String deviceId = "test_device_id";
     String verificationNumber = "1234";
 
-    Company company = new Company(
-        null, "구글", "gmail.com", null, null, null, null
-    );
-    UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    User user = new User(
-        null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
-    );
-    User targetUser = new User(
-        null, targetUserEmail, password, UserStatus.ACTIVE, null, null, null, targetUserProfile
-    );
+    Company company = Company.builder()
+        .name("구글")
+        .domain("gmail.com")
+        .build();
+
+    UserProfile userProfile = UserProfile.builder()
+        .username(username)
+        .gender(gender)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User user = User.builder()
+        .email(email)
+        .password(password)
+        .userProfile(userProfile)
+        .build();
+
+    UserProfile targetUserProfile = UserProfile.builder()
+        .username(username + 'a')
+        .gender(Gender.FEMALE)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User targetUser = User.builder()
+        .email(targetUserEmail)
+        .password(password)
+        .userProfile(targetUserProfile)
+        .build();
+
     companyService.createCompany(company);
     emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
     emailVerificationService.createEmailVerification(targetUserEmail, deviceId, verificationNumber);
@@ -113,21 +139,46 @@ class RecommendProfileServiceTest {
     String deviceId = "test_device_id";
     String verificationNumber = "1234";
 
-    Company company = new Company(
-        null, "구글", "gmail.com", null, null, null, null
-    );
-    UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    User user = new User(
-        null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
-    );
-    User targetUser = new User(
-        null, targetUserEmail, password, UserStatus.ACTIVE, null, null, null, targetUserProfile
-    );
+    Company company = Company.builder()
+        .name("구글")
+        .domain("gmail.com")
+        .build();
+
+    UserProfile userProfile = UserProfile.builder()
+        .username(username)
+        .gender(gender)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User user = User.builder()
+        .email(email)
+        .password(password)
+        .userProfile(userProfile)
+        .build();
+
+    UserProfile targetUserProfile = UserProfile.builder()
+        .username(username + 'a')
+        .gender(Gender.FEMALE)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User targetUser = User.builder()
+        .email(targetUserEmail)
+        .password(password)
+        .userProfile(targetUserProfile)
+        .build();
     companyService.createCompany(company);
     emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
     emailVerificationService.createEmailVerification(targetUserEmail, deviceId, verificationNumber);
@@ -165,21 +216,46 @@ class RecommendProfileServiceTest {
     String deviceId = "test_device_id";
     String verificationNumber = "1234";
 
-    Company company = new Company(
-        null, "구글", "gmail.com", null, null, null, null
-    );
-    UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    User user = new User(
-        null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
-    );
-    User targetUser = new User(
-        null, targetUserEmail, password, UserStatus.ACTIVE, null, null, null, targetUserProfile
-    );
+    Company company = Company.builder()
+        .name("구글")
+        .domain("gmail.com")
+        .build();
+
+    UserProfile userProfile = UserProfile.builder()
+        .username(username)
+        .gender(gender)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User user = User.builder()
+        .email(email)
+        .password(password)
+        .userProfile(userProfile)
+        .build();
+
+    UserProfile targetUserProfile = UserProfile.builder()
+        .username(username + 'a')
+        .gender(Gender.FEMALE)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User targetUser = User.builder()
+        .email(targetUserEmail)
+        .password(password)
+        .userProfile(targetUserProfile)
+        .build();
     companyService.createCompany(company);
     emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
     emailVerificationService.createEmailVerification(targetUserEmail, deviceId, verificationNumber);
@@ -213,21 +289,46 @@ class RecommendProfileServiceTest {
     String deviceId = "test_device_id";
     String verificationNumber = "1234";
 
-    Company company = new Company(
-        null, "구글", "gmail.com", null, null, null, null
-    );
-    UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    User user = new User(
-        null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
-    );
-    User targetUser = new User(
-        null, targetUserEmail, password, UserStatus.ACTIVE, null, null, null, targetUserProfile
-    );
+    Company company = Company.builder()
+        .name("구글")
+        .domain("gmail.com")
+        .build();
+
+    UserProfile userProfile = UserProfile.builder()
+        .username(username)
+        .gender(gender)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User user = User.builder()
+        .email(email)
+        .password(password)
+        .userProfile(userProfile)
+        .build();
+
+    UserProfile targetUserProfile = UserProfile.builder()
+        .username(username + 'a')
+        .gender(Gender.FEMALE)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User targetUser = User.builder()
+        .email(targetUserEmail)
+        .password(password)
+        .userProfile(targetUserProfile)
+        .build();
     companyService.createCompany(company);
     emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
     emailVerificationService.createEmailVerification(targetUserEmail, deviceId, verificationNumber);
@@ -265,21 +366,46 @@ class RecommendProfileServiceTest {
     String deviceId = "test_device_id";
     String verificationNumber = "1234";
 
-    Company company = new Company(
-        null, "구글", "gmail.com", null, null, null, null
-    );
-    UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    UserProfile targetUserProfile = new UserProfile(
-        null, username + 'a', Gender.FEMALE, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    User user = new User(
-        null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
-    );
-    User targetUser = new User(
-        null, targetUserEmail, password, UserStatus.ACTIVE, null, null, null, targetUserProfile
-    );
+    Company company = Company.builder()
+        .name("구글")
+        .domain("gmail.com")
+        .build();
+
+    UserProfile userProfile = UserProfile.builder()
+        .username(username)
+        .gender(gender)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User user = User.builder()
+        .email(email)
+        .password(password)
+        .userProfile(userProfile)
+        .build();
+
+    UserProfile targetUserProfile = UserProfile.builder()
+        .username(username + 'a')
+        .gender(Gender.FEMALE)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User targetUser = User.builder()
+        .email(targetUserEmail)
+        .password(password)
+        .userProfile(targetUserProfile)
+        .build();
     companyService.createCompany(company);
     emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
     emailVerificationService.createEmailVerification(targetUserEmail, deviceId, verificationNumber);

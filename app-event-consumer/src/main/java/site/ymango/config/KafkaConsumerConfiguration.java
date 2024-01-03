@@ -19,7 +19,7 @@ public class KafkaConsumerConfiguration {
   private String bootstrapServers;
 
   @Bean
-  public ConsumerFactory<String, Long> consumerFactory() {
+  public ConsumerFactory<String, Long> longConsumerFactory() {
     return new DefaultKafkaConsumerFactory<>(Map.of(
         ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
         ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
@@ -28,9 +28,9 @@ public class KafkaConsumerConfiguration {
   }
 
   @Bean
-  public ConcurrentKafkaListenerContainerFactory<String, Long> kafkaListenerContainerFactory() {
+  public ConcurrentKafkaListenerContainerFactory<String, Long> longKafkaListenerContainerFactory() {
     ConcurrentKafkaListenerContainerFactory<String, Long> factory = new ConcurrentKafkaListenerContainerFactory<>();
-    factory.setConsumerFactory(consumerFactory());
+    factory.setConsumerFactory(longConsumerFactory());
     return factory;
   }
 }

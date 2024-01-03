@@ -132,3 +132,23 @@ create table service.point_bonus_expiration
 
 create index point_bonus_expiration_ix_point_wallet_id
     on service.point_bonus_expiration (point_wallet_id);
+
+create table service.match_request
+(
+    match_request_id bigint auto_increment
+        primary key,
+    user_id          bigint                               not null,
+    target_user_id   bigint                               not null,
+    accepted         tinyint(1) default 0                 not null,
+    accepted_at      timestamp                            null,
+    created_at       timestamp  default CURRENT_TIMESTAMP not null,
+    expired_at       timestamp                            null,
+    deleted_at       timestamp                            null
+);
+
+create index user_ix_target_user_id
+    on service.match_request (target_user_id);
+
+create index user_ix_user_id
+    on service.match_request (user_id);
+

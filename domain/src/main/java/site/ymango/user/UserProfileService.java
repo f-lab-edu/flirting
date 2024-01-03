@@ -35,6 +35,7 @@ public class UserProfileService {
         () -> new BaseException(ErrorCode.USER_PROFILE_NOT_FOUND));
     return UserProfile.builder()
         .userProfileId(userProfileEntity.getUserProfileId())
+        .userId(userProfileEntity.getUser().getUserId())
         .username(userProfileEntity.getUsername())
         .gender(userProfileEntity.getGender())
         .birthdate(userProfileEntity.getBirthdate())

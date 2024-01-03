@@ -12,12 +12,12 @@ import site.ymango.user.model.UserCreateEvent;
 @Component
 @RequiredArgsConstructor
 public class UserEventListener {
-  private final KafkaTemplate<String, Long> kafkaTemplate;
+  private final KafkaTemplate<String, UserCreateEvent> userCreateEventKafkaTemplate;
 
   @Async
   @EventListener
   public void handleUserCreateEvent(UserCreateEvent userCreateEvent) {
-    kafkaTemplate.send("user_create", userCreateEvent.userId());
+    userCreateEventKafkaTemplate.send("user_create", userCreateEvent);
     log.info("UserCreateEvent. userId: {}", userCreateEvent.userId());
   }
 }

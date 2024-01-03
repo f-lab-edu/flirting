@@ -59,15 +59,29 @@ class UserServiceTest {
     String deviceId = "test_device_id";
     String verificationNumber = "1234";
 
-    Company company = new Company(
-        null, "구글", "gmail.com", null, null, null, null
-    );
-    UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    User user = new User(
-        null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
-    );
+    Company company = Company.builder()
+            .name("구글")
+            .domain("gmail.com")
+            .build();
+
+    UserProfile userProfile = UserProfile.builder()
+        .username(username)
+        .gender(gender)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User user = User.builder()
+        .email(email)
+        .password(password)
+        .userProfile(userProfile)
+        .build();
+
     companyService.createCompany(company);
 
     // when
@@ -107,15 +121,28 @@ class UserServiceTest {
     Location location = new Location(1.0, 2.0);
     String deviceId = "test_device_id";
 
-    Company company = new Company(
-        null, null, "gmail.com", null, null, null, null
-    );
-    UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    User user = new User(
-        null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
-    );
+    Company company = Company.builder()
+        .name("구글")
+        .domain("gmail.com")
+        .build();
+
+    UserProfile userProfile = UserProfile.builder()
+        .username(username)
+        .gender(gender)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User user = User.builder()
+        .email(email)
+        .password(password)
+        .userProfile(userProfile)
+        .build();
 
     BaseException baseException = assertThrows(BaseException.class, () -> userService.create(user, deviceId));
     assertEquals("이메일이 인증되지 않았습니다.", baseException.getMessage());
@@ -138,15 +165,28 @@ class UserServiceTest {
     String deviceId = "test_device_id";
     String verificationNumber = "1234";
 
-    Company company = new Company(
-        null, "구글", "gmail.com", null, null, null, null
-    );
-    UserProfile userProfile = new UserProfile(
-        null, username, gender, birthdate, sido, sigungu, mbti, preferMbti, location, company, null, null, null
-    );
-    User user = new User(
-        null, email, password, UserStatus.ACTIVE, null, null, null, userProfile
-    );
+    Company company = Company.builder()
+        .name("구글")
+        .domain("gmail.com")
+        .build();
+
+    UserProfile userProfile = UserProfile.builder()
+        .username(username)
+        .gender(gender)
+        .birthdate(birthdate)
+        .sido(sido)
+        .sigungu(sigungu)
+        .mbti(mbti)
+        .preferMbti(preferMbti)
+        .location(location)
+        .userCompany(company)
+        .build();
+
+    User user = User.builder()
+        .email(email)
+        .password(password)
+        .userProfile(userProfile)
+        .build();
 
     companyService.createCompany(company);
     emailVerificationService.createEmailVerification(email, deviceId, verificationNumber);
